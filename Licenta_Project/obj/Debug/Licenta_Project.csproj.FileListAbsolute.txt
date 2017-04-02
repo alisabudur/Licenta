@@ -1,0 +1,6 @@
+D:\Facultate\Licenta\Licenta_Project\Licenta_Project\bin\Debug\Licenta_Project.exe.config
+D:\Facultate\Licenta\Licenta_Project\Licenta_Project\bin\Debug\Licenta_Project.exe
+D:\Facultate\Licenta\Licenta_Project\Licenta_Project\bin\Debug\Licenta_Project.pdb
+D:\Facultate\Licenta\Licenta_Project\Licenta_Project\obj\Debug\Licenta_Project.csprojResolveAssemblyReference.cache
+D:\Facultate\Licenta\Licenta_Project\Licenta_Project\obj\Debug\Licenta_Project.exe
+D:\Facultate\Licenta\Licenta_Project\Licenta_Project\obj\Debug\Licenta_Project.pdb
