@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Licenta_Project.DAL;
+using Licenta_Project.Services;
 
 namespace Licenta_Project
 {
@@ -11,8 +12,12 @@ namespace Licenta_Project
     {
         static void Main(string[] args)
         {
-            var ddsm = new DDSM();
-            ddsm.GetCases();
+            var ann = new AnnService();
+            ann.Ann();
+            //var ddsm = new DDSM();
+            //ddsm.GetCases();
+            //ddsm.PutInputInDb();
+            //ddsm.PutOutputInDb();
         }
     }
 }

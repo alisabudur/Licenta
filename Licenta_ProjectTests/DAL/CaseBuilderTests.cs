@@ -24,10 +24,10 @@ namespace Licenta_Project.DAL.Tests
             };
             caseBuilder.BuildImages(list);
             var ddsmCase = caseBuilder.Case;
-            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.LEFT_CC.png", ddsmCase.LeftCCPath);
-            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.RIGHT_CC.png", ddsmCase.RightCCPath);
-            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.LEFT_MLO.png", ddsmCase.LeftMLOPath);
-            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.RIGHT_MLO.png", ddsmCase.RightMLOPath);
+            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.LEFT_CC.png", ddsmCase.Images[ImageName.LeftCC].ImagePath);
+            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.RIGHT_CC.png", ddsmCase.Images[ImageName.RightCC].ImagePath);
+            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.LEFT_MLO.png", ddsmCase.Images[ImageName.LeftMLO].ImagePath);
+            Assert.AreEqual(@"G:\DDSM\cases\cancers\cancer_01\case0001\PNGFiles\C_0001_1.RIGHT_MLO.png", ddsmCase.Images[ImageName.RightMLO].ImagePath);
         }
 
         [TestMethod()]

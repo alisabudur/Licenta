@@ -12,15 +12,6 @@ namespace Licenta_Project.DAL.Tests
     public class OverlayBuilderTests
     {
         [TestMethod()]
-        public void BuildImageNameTest()
-        {
-            var overlayBuilder = new OverlayBuilder();
-            overlayBuilder.BuildImageName(@"G:\DDSM\cases\cancers\cancer_01\case0001\C_0001_1.RIGHT_CC.OVERLAY");
-            var overlay = overlayBuilder.Overlay;
-            Assert.AreEqual("RIGHT_CC", overlay.ImageName);
-        }
-
-        [TestMethod()]
         public void BuildTotalAbnormalitiesTest()
         {
             var overlayBuilder = new OverlayBuilder();
@@ -58,12 +49,10 @@ namespace Licenta_Project.DAL.Tests
 
             var abnormality = overlay.Abnormalities.First();
 
-            Assert.IsTrue(abnormality.MoreInformation.ContainsKey("LESION_TYPE"));
-            Assert.IsTrue(abnormality.MoreInformation.ContainsKey("SHAPE"));
-            Assert.AreEqual("MICROLOBULATED", abnormality.MoreInformation["MARGINS"]);
+            Assert.AreEqual(abnormality.LessionType, LessionType.Mass);
             Assert.AreEqual(abnormality.Assesment, 4);
             Assert.AreEqual(abnormality.Subtlety, 4);
-            Assert.AreEqual(abnormality.Patology, "BENIGN");
+            Assert.AreEqual(abnormality.Patology, Patology.Benign);
         }
     }
 }

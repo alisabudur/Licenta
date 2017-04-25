@@ -17,14 +17,6 @@ namespace Licenta_Project.DAL
             Overlay = new Overlay();
         }
 
-        public void BuildImageName(string overlayFileName)
-        {
-            var pattern = @"(?<=\.)(.*)(?=\.)";
-            var regex = new Regex(pattern);
-            var match = regex.Match(overlayFileName);
-            Overlay.ImageName = match.Value;
-        }
-
         public void BuildTotalAbnormalities(int totalAbnormalities)
         {
             Overlay.TotalAbnormalities = totalAbnormalities;
@@ -46,7 +38,7 @@ namespace Licenta_Project.DAL
                 var moreInformation = information.FirstOrDefault(i => i.Contains("LESION_TYPE"));
                 if (moreInformation != null)
                 {
-                    abnormalityBuilder.BuildMoreInformation(moreInformation);
+                    abnormalityBuilder.BuildLessionType(moreInformation);
                 }
 
                 var assesment = GetAssesment(information);

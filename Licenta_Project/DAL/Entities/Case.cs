@@ -9,11 +9,9 @@ namespace Licenta_Project.DAL
 {
     public class Case
     {
-        public string LeftCCPath { get; set; }
-        public string LeftMLOPath { get; set; }
-        public string RightCCPath { get; set; }
-        public string RightMLOPath { get; set; }
+        public IDictionary<ImageName, CaseImage> Images { get; set; }
         public int PatientAge { get; set; }
-        public IEnumerable<Overlay> Overlays { get; set; }
+
+        public int Density { get; set; }
     }
 }

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DDSMModelStoreContainer" CdmEntityContainer="DDSMEntities">
+    <EntitySetMapping Name="Inputs">
+      <EntityTypeMapping TypeName="DDSMModel.Input">
+        <MappingFragment StoreEntitySet="Input">
+          <ScalarProperty Name="Density" ColumnName="Density" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="ImageStdDev" ColumnName="ImageStdDev" />
+          <ScalarProperty Name="ImageMedian" ColumnName="ImageMedian" />
+          <ScalarProperty Name="ImageMean" ColumnName="ImageMean" />
+          <ScalarProperty Name="PatientAge" ColumnName="PatientAge" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Outputs">
+      <EntityTypeMapping TypeName="DDSMModel.Output">
+        <MappingFragment StoreEntitySet="Output">
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="Patology" ColumnName="Patology" />
+          <ScalarProperty Name="LessionType" ColumnName="LessionType" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

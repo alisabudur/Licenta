@@ -12,27 +12,23 @@ namespace Licenta_Project.DAL.Tests
     public class AbnormalityBuilderTests
     {
         [TestMethod()]
-        public void BuildMoreInformationTest()
+        public void BuildLessionTypeTest()
         {
             var abnormalityBuilder = new AbnormalityBuilder();
-            abnormalityBuilder.BuildMoreInformation("LESION_TYPE MASS SHAPE IRREGULAR MARGINS SPICULATED");
+            abnormalityBuilder.BuildLessionType("LESION_TYPE MASS SHAPE IRREGULAR MARGINS SPICULATED");
             var abnormality = abnormalityBuilder.Abnormality;
 
-            Assert.IsTrue(abnormality.MoreInformation.ContainsKey("LESION_TYPE"));
-            Assert.IsTrue(abnormality.MoreInformation.ContainsKey("SHAPE"));
-            Assert.AreEqual("SPICULATED", abnormality.MoreInformation["MARGINS"]);
+            Assert.AreEqual(abnormality.LessionType, LessionType.Mass);
         }
 
         [TestMethod()]
         public void BuildMoreInformationTest1()
         {
             var abnormalityBuilder = new AbnormalityBuilder();
-            abnormalityBuilder.BuildMoreInformation("LESION_TYPE CALCIFICATION TYPE PLEOMORPHIC DISTRIBUTION SEGMENTAL");
+            abnormalityBuilder.BuildLessionType("LESION_TYPE CALCIFICATION TYPE PLEOMORPHIC DISTRIBUTION SEGMENTAL");
             var abnormality = abnormalityBuilder.Abnormality;
 
-            Assert.IsTrue(abnormality.MoreInformation.ContainsKey("LESION_TYPE"));
-            Assert.IsTrue(abnormality.MoreInformation.ContainsKey("TYPE"));
-            Assert.AreEqual("SEGMENTAL", abnormality.MoreInformation["DISTRIBUTION"]);
+            Assert.AreEqual(abnormality.LessionType, LessionType.Calcification);
         }
     }
 }

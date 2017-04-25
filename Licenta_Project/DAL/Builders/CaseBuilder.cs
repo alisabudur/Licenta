@@ -21,11 +21,14 @@ namespace Licenta_Project.DAL
         public void BuildImages(IEnumerable<string> imagesPaths)
         {
             var enumerable = imagesPaths as string[] ?? imagesPaths.ToArray();
-
-            Case.LeftCCPath = enumerable.FirstOrDefault(n => n.Contains(Constants.LeftCC));
-            Case.LeftMLOPath = enumerable.FirstOrDefault(n => n.Contains(Constants.LeftMLO));
-            Case.RightCCPath = enumerable.FirstOrDefault(n => n.Contains(Constants.RightCC));
-            Case.RightMLOPath = enumerable.FirstOrDefault(n => n.Contains(Constants.RightMLO));
+            var dictionary = new Dictionary<ImageName, CaseImage>()
+            {
+                { ImageName.LeftCC, new CaseImage{ImagePath = enumerable.FirstOrDefault(n => n.Contains(Constants.LeftCC))}},
+                { ImageName.LeftMLO, new CaseImage{ImagePath = enumerable.FirstOrDefault(n => n.Contains(Constants.LeftMLO))}},
+                { ImageName.RightCC, new CaseImage{ImagePath = enumerable.FirstOrDefault(n => n.Contains(Constants.RightCC))}},
+                { ImageName.RightMLO, new CaseImage{ImagePath = enumerable.FirstOrDefault(n => n.Contains(Constants.RightMLO))}}
+            };
+            Case.Images = dictionary;
         }
 
         public void BuildPatientAge(int age)
@@ -33,14 +36,17 @@ namespace Licenta_Project.DAL
             Case.PatientAge = age;
         }
 
+        public void BuildDensity(int density)
+        {
+            Case.Density = density;
+        }
+
         public void BuildOverlies(IEnumerable<string> overlayFiles)
         {
             var enumerable = overlayFiles as string[] ?? overlayFiles.ToArray();
-            var overlies = new List<Overlay>();
             foreach (var overlayFile in enumerable)
             {
                 var overlayBuilder = new OverlayBuilder();
-                overlayBuilder.BuildImageName(overlayFile);
 
                 var totalAbnormalities = GetTotalAbnormalities(overlayFile);
                 overlayBuilder.BuildTotalAbnormalities(totalAbnormalities);
@@ -49,9 +55,28 @@ namespace Licenta_Project.DAL
                 overlayBuilder.BuildAbnormalities(abnormalities);
 
                 var overlay = overlayBuilder.Overlay;
-                overlies.Add(overlay);
+                AssignOverlayToImage(overlayFile, overlay);
             }
-            Case.Overlays = overlies;
+        }
+
+        private void AssignOverlayToImage(string overlayFile, Overlay overlay)
+        {
+            if (overlayFile.Contains(Constants.LeftCC))
+            {
+                Case.Images[ImageName.LeftCC].Overlay = overlay;
+            }
+            else if (overlayFile.Contains(Constants.LeftMLO))
+            {
+                Case.Images[ImageName.LeftMLO].Overlay = overlay;
+            }
+            else if (overlayFile.Contains(Constants.RightCC))
+            {
+                Case.Images[ImageName.RightCC].Overlay = overlay;
+            }
+            else if(overlayFile.Contains(Constants.RightMLO))
+            {
+                Case.Images[ImageName.RightMLO].Overlay = overlay;
+            }
         }
 
         private int GetTotalAbnormalities(string overlayFileName)

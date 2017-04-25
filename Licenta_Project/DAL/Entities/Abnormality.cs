@@ -8,10 +8,10 @@ namespace Licenta_Project.DAL
 {
     public class Abnormality
     {
-        public IDictionary<string, string> MoreInformation { get; set; }
+        public LessionType LessionType { get; set; }
         public int Assesment { get; set; }
         public int Subtlety { get; set; }
-        public  string Patology { get; set; }
+        public Patology Patology { get; set; }
         public int TotalOutlines { get; set; }
     }
 }

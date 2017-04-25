@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DDSMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Input">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PatientAge" Type="float" Nullable="false" />
+    <Property Name="ImageMean" Type="float" Nullable="false" />
+    <Property Name="ImageMedian" Type="float" Nullable="false" />
+    <Property Name="ImageStdDev" Type="float" Nullable="false" />
+    <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Density" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Output">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LessionType" Type="float" Nullable="false" />
+    <Property Name="Patology" Type="float" Nullable="false" />
+    <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="DDSMModelStoreContainer">
+    <EntitySet Name="Input" EntityType="Self.Input" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Output" EntityType="Self.Output" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

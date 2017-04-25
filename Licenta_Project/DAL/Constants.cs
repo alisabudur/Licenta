@@ -14,7 +14,14 @@ namespace Licenta_Project.DAL
         public const string RightMLO = "RIGHT_MLO";
 
         public const string PATIENT_AGE = "PATIENT_AGE";
+        public const string DENSITY = "DENSITY";
         public const string TOTAL_ABNORMALITIES = "TOTAL_ABNORMALITIES";
         public const string ABNORMALITY = "ABNORMALITY";
+
+        public const string MASS = "MASS";
+        public const string CALCIFICATION = "CALCIFICATION";
+
+        public const string MALIGNANT = "MALIGNANT";
+        public const string BENIGN = "BENIGN";
     }
 }

@@ -6,7 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AForge.Imaging;
 using Licenta_Project.Extensions;
+using System.Data.Entity;
 
 namespace Licenta_Project.DAL
 {
@@ -14,14 +16,18 @@ namespace Licenta_Project.DAL
     {
         private readonly string _baseDirectoryPath;
         private readonly IEnumerable<string> _workingDirectoriesPaths;
+        private readonly DDSMEntities _dbContext;
+
+        public IEnumerable<Case> Cases { get; private set; }
 
         public DDSM()
         {
             _baseDirectoryPath = ConfigurationManager.AppSettings["BaseDirectory"];
             _workingDirectoriesPaths = ConfigurationManager.AppSettings["WorkingDirectories"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            _dbContext = new DDSMEntities();
         }
 
-        public IEnumerable<Case> GetCases()
+        public void GetCases()
         {
             var cases = new List<Case>();
             foreach (var workingDirectoryPath in _workingDirectoriesPaths)
@@ -29,7 +35,105 @@ namespace Licenta_Project.DAL
                 var ddsmCases = GetFromWorkingDirectory(Path.Combine(_baseDirectoryPath, workingDirectoryPath));
                 cases.AddRange(ddsmCases);
             }
-            return cases;
+            Cases = cases;
+        }
+
+        public void PutInputInDb()
+        {
+            var workCases = Cases.ToList();
+
+            foreach (var caseItem in workCases)
+            {
+                foreach (var imageKey in caseItem.Images.Keys)
+                {
+                    using (var image = new Bitmap(caseItem.Images[imageKey].ImagePath))
+                    {
+                        var imageStatistics = new ImageStatistics(image);
+                        var histogram = imageStatistics.Red;
+
+                        var input = new Input
+                        {
+                            PatientAge = caseItem.PatientAge,
+                            Density = caseItem.Density,
+                            ImageMean = histogram.Mean,
+                            ImageMedian = histogram.Median,
+                            ImageStdDev = histogram.StdDev,
+                            ImagePath = caseItem.Images[imageKey].ImagePath
+                        };
+                        _dbContext.Inputs.Add(input);
+                        _dbContext.SaveChanges();
+                    }
+                }
+            }
+            
+        }
+
+        public void PutOutputInDb()
+        {
+            var workCases = Cases.ToList();
+
+            foreach (var caseItem in workCases)
+            {
+                foreach (var imageKey in caseItem.Images.Keys)
+                {
+                    var output = new Output();
+
+                    if (caseItem.Images[imageKey].Overlay != null)
+                    {
+                        output.LessionType = (int)caseItem.Images[imageKey].Overlay.Abnormalities
+                            .ToList()
+                            .First()
+                            .LessionType;
+
+                        output.Patology = (double)caseItem.Images[imageKey].Overlay.Abnormalities
+                            .ToList()
+                            .First()
+                            .Patology;
+                        output.ImagePath = caseItem.Images[imageKey].ImagePath;
+                    }
+                    else
+                    {
+                        output.LessionType = (double)LessionType.Undefined;
+                        output.Patology = (double)Patology.Normal;
+                        output.ImagePath = caseItem.Images[imageKey].ImagePath;
+                    };
+                    _dbContext.Outputs.Add(output);
+                    _dbContext.SaveChanges();
+                }
+            }
+        }
+
+        public double[][] GetInputFromDb()
+        {
+            var index = 0;
+            var result = new double[_dbContext.Inputs.Count()][];
+
+            foreach (var input in _dbContext.Inputs)
+            {
+                var resultItem = new double[4];
+                resultItem[0] = input.PatientAge;
+                resultItem[1] = input.Density;
+                resultItem[2] = input.ImageMean;
+                resultItem[3] = input.ImageStdDev;
+                result[index] = resultItem;
+                index++;
+            }
+            return result;
+        }
+
+        public double[][] GetOutputFromDb()
+        {
+            var index = 0;
+            var result = new double[_dbContext.Inputs.Count()][];
+
+            foreach (var output in _dbContext.Outputs)
+            {
+                var resultItem = new double[1];
+                resultItem[0] = output.Patology;
+                result[index] = resultItem;
+                index++;
+            }
+            return result;
         }
 
         private IEnumerable<Case> GetFromWorkingDirectory(string workingDirectoryPath)
@@ -46,6 +150,9 @@ namespace Licenta_Project.DAL
 
                 var age = GetPatientAge(caseDirectoryPath);
                 caseBuilder.BuildPatientAge(age);
+
+                var density = GetDensity(caseDirectoryPath);
+                caseBuilder.BuildDensity(density);
 
                 var overlayFiles = GetOverlayFiles(caseDirectoryPath);
                 caseBuilder.BuildOverlies(overlayFiles);
@@ -68,6 +175,22 @@ namespace Licenta_Project.DAL
 
             var age = File.ReadLines(icsFile)
                 .Where(line => line.Contains(Constants.PATIENT_AGE))
+                .ToList()
+                .First()
+                .Split(' ')
+                .GetValue(1)
+                .ToString()
+                .ToInt();
+            return age;
+        }
+
+        private int GetDensity(string caseDirectory)
+        {
+            var icsFile = Directory.GetFiles(caseDirectory)
+                .FirstOrDefault(f => f.Contains(".ics"));
+
+            var age = File.ReadLines(icsFile)
+                .Where(line => line.Contains(Constants.DENSITY))
                 .ToList()
                 .First()
                 .Split(' ')

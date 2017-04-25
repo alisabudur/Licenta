@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DDSMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Input">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientAge" Type="float" Nullable="false" />
+          <Property Name="ImageMean" Type="float" Nullable="false" />
+          <Property Name="ImageMedian" Type="float" Nullable="false" />
+          <Property Name="ImageStdDev" Type="float" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Density" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Output">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LessionType" Type="float" Nullable="false" />
+          <Property Name="Patology" Type="float" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DDSMModelStoreContainer">
+          <EntitySet Name="Input" EntityType="Self.Input" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Output" EntityType="Self.Output" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DDSMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DDSMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Inputs" EntityType="DDSMModel.Input" />
+          <EntitySet Name="Outputs" EntityType="DDSMModel.Output" />
+        </EntityContainer>
+        <EntityType Name="Input">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientAge" Type="Double" Nullable="false" />
+          <Property Name="ImageMean" Type="Double" Nullable="false" />
+          <Property Name="ImageMedian" Type="Double" Nullable="false" />
+          <Property Name="ImageStdDev" Type="Double" Nullable="false" />
+          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Density" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Output">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LessionType" Type="Double" Nullable="false" />
+          <Property Name="Patology" Type="Double" Nullable="false" />
+          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DDSMModelStoreContainer" CdmEntityContainer="DDSMEntities">
+          <EntitySetMapping Name="Inputs">
+            <EntityTypeMapping TypeName="DDSMModel.Input">
+              <MappingFragment StoreEntitySet="Input">
+                <ScalarProperty Name="Density" ColumnName="Density" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ImageStdDev" ColumnName="ImageStdDev" />
+                <ScalarProperty Name="ImageMedian" ColumnName="ImageMedian" />
+                <ScalarProperty Name="ImageMean" ColumnName="ImageMean" />
+                <ScalarProperty Name="PatientAge" ColumnName="PatientAge" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Outputs">
+            <EntityTypeMapping TypeName="DDSMModel.Output">
+              <MappingFragment StoreEntitySet="Output">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Patology" ColumnName="Patology" />
+                <ScalarProperty Name="LessionType" ColumnName="LessionType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

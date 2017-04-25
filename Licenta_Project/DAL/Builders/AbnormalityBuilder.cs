@@ -15,19 +15,26 @@ namespace Licenta_Project.DAL
             Abnormality = new Abnormality();
         }
 
-        public void BuildMoreInformation(string moreInformation)
+        public void BuildLessionType(string lessionType)
         {
-            var result = new Dictionary<string, string>();
-            var informationItem = moreInformation
-                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
+            var lession = lessionType
+                .Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries)
+                .ToArray()
+                .GetValue(1)
+                .ToString();
 
-            for (var i = 0; i < informationItem.Length; i += 2)
+            switch (lession)
             {
-                result.Add(informationItem[i], informationItem[i + 1]);
+                case Constants.MASS:
+                    Abnormality.LessionType = LessionType.Mass;
+                    break;
+                case Constants.CALCIFICATION:
+                    Abnormality.LessionType = LessionType.Calcification;
+                    break;
+                default:
+                    Abnormality.LessionType = LessionType.Undefined;
+                    break;
             }
-            
-            Abnormality.MoreInformation = result;
         }
 
         public void BuildAssesment(int assesment)
@@ -42,7 +49,18 @@ namespace Licenta_Project.DAL
 
         public void BuildPatology(string patology)
         {
-            Abnormality.Patology = patology;
+            switch (patology)
+            {
+                case Constants.BENIGN:
+                    Abnormality.Patology = Patology.Benign;
+                    break;
+                case Constants.MALIGNANT:
+                    Abnormality.Patology = Patology.Malignant;
+                    break;
+                default:
+                    Abnormality.Patology = Patology.Undefined;
+                    break;
+            }
         }
     }
 }
