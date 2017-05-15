@@ -10,9 +10,11 @@ using AForge.Imaging;
 using Licenta_Project.Extensions;
 using System.Data.Entity;
 using Licenta_Project.Services;
+using Licenta_Project.Aspects;
 
 namespace Licenta_Project.DAL
 {
+    [LogAspect]
     public class DDSM
     {
         private readonly string _baseDirectoryPath;

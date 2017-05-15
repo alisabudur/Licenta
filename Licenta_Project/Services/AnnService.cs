@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using AForge.Imaging;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
+using Licenta_Project.Aspects;
 using Licenta_Project.DAL;
 
 namespace Licenta_Project.Services
 {
+    [LogAspect]
     public class AnnService
     {
         private readonly List<Case> _cases;
@@ -60,6 +62,7 @@ namespace Licenta_Project.Services
             inputItem[5] = imageStatistics.Kurt;
 
             var outputNetwork = network.Compute(inputItem);
+            throw new Exception("Test exception");
         }
     }
 }
