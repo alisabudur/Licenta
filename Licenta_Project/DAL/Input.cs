@@ -19,6 +19,8 @@ namespace Licenta_Project.DAL
         public double ImageMean { get; set; }
         public double ImageMedian { get; set; }
         public double ImageStdDev { get; set; }
+        public double ImageSkew { get; set; }
+        public double ImageKurt { get; set; }
         public string ImagePath { get; set; }
         public double Density { get; set; }
     }

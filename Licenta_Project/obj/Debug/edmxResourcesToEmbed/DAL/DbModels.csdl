@@ -13,6 +13,8 @@
     <Property Name="ImageMean" Type="Double" Nullable="false" />
     <Property Name="ImageMedian" Type="Double" Nullable="false" />
     <Property Name="ImageStdDev" Type="Double" Nullable="false" />
+    <Property Name="ImageSkew" Type="Double" Nullable="false" />
+    <Property Name="ImageKurt" Type="Double" Nullable="false" />
     <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Density" Type="Double" Nullable="false" />
   </EntityType>
@@ -21,7 +23,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LessionType" Type="Double" Nullable="false" />
     <Property Name="Patology" Type="Double" Nullable="false" />
     <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>

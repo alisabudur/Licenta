@@ -15,7 +15,6 @@ namespace Licenta_Project.DAL
     public partial class Output
     {
         public int Id { get; set; }
-        public double LessionType { get; set; }
         public double Patology { get; set; }
         public string ImagePath { get; set; }
     }

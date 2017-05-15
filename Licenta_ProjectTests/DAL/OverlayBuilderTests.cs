@@ -48,8 +48,6 @@ namespace Licenta_Project.DAL.Tests
             Assert.IsTrue(overlay.Abnormalities.Count() == 2);
 
             var abnormality = overlay.Abnormalities.First();
-
-            Assert.AreEqual(abnormality.LessionType, LessionType.Mass);
             Assert.AreEqual(abnormality.Assesment, 4);
             Assert.AreEqual(abnormality.Subtlety, 4);
             Assert.AreEqual(abnormality.Patology, Patology.Benign);

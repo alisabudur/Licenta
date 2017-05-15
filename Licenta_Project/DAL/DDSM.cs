@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AForge.Imaging;
 using Licenta_Project.Extensions;
 using System.Data.Entity;
+using Licenta_Project.Services;
 
 namespace Licenta_Project.DAL
 {
@@ -48,16 +49,17 @@ namespace Licenta_Project.DAL
                 {
                     using (var image = new Bitmap(caseItem.Images[imageKey].ImagePath))
                     {
-                        var imageStatistics = new ImageStatistics(image);
-                        var histogram = imageStatistics.Red;
+                        var imageStatistics = new StatisticsService(image);
 
                         var input = new Input
                         {
                             PatientAge = caseItem.PatientAge,
                             Density = caseItem.Density,
-                            ImageMean = histogram.Mean,
-                            ImageMedian = histogram.Median,
-                            ImageStdDev = histogram.StdDev,
+                            ImageMean = imageStatistics.Mean,
+                            ImageMedian = imageStatistics.Median,
+                            ImageStdDev = imageStatistics.StdDev,
+                            ImageSkew = imageStatistics.Skew,
+                            ImageKurt = imageStatistics.Kurt,
                             ImagePath = caseItem.Images[imageKey].ImagePath
                         };
                         _dbContext.Inputs.Add(input);
@@ -80,11 +82,6 @@ namespace Licenta_Project.DAL
 
                     if (caseItem.Images[imageKey].Overlay != null)
                     {
-                        output.LessionType = (int)caseItem.Images[imageKey].Overlay.Abnormalities
-                            .ToList()
-                            .First()
-                            .LessionType;
-
                         output.Patology = (double)caseItem.Images[imageKey].Overlay.Abnormalities
                             .ToList()
                             .First()
@@ -93,7 +90,6 @@ namespace Licenta_Project.DAL
                     }
                     else
                     {
-                        output.LessionType = (double)LessionType.Undefined;
                         output.Patology = (double)Patology.Normal;
                         output.ImagePath = caseItem.Images[imageKey].ImagePath;
                     };
@@ -110,11 +106,13 @@ namespace Licenta_Project.DAL
 
             foreach (var input in _dbContext.Inputs)
             {
-                var resultItem = new double[4];
+                var resultItem = new double[6];
                 resultItem[0] = input.PatientAge;
                 resultItem[1] = input.Density;
                 resultItem[2] = input.ImageMean;
                 resultItem[3] = input.ImageStdDev;
+                resultItem[4] = input.ImageSkew;
+                resultItem[5] = input.ImageKurt;
                 result[index] = resultItem;
                 index++;
             }

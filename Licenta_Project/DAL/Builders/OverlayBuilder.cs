@@ -39,6 +39,8 @@ namespace Licenta_Project.DAL
                 if (moreInformation != null)
                 {
                     abnormalityBuilder.BuildLessionType(moreInformation);
+                    abnormalityBuilder.BuildShape(moreInformation);
+                    abnormalityBuilder.BuildMargins(moreInformation);
                 }
 
                 var assesment = GetAssesment(information);

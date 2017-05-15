@@ -9,6 +9,8 @@
     <Property Name="ImageMean" Type="float" Nullable="false" />
     <Property Name="ImageMedian" Type="float" Nullable="false" />
     <Property Name="ImageStdDev" Type="float" Nullable="false" />
+    <Property Name="ImageSkew" Type="float" Nullable="false" />
+    <Property Name="ImageKurt" Type="float" Nullable="false" />
     <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Density" Type="float" Nullable="false" />
   </EntityType>
@@ -17,7 +19,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LessionType" Type="float" Nullable="false" />
     <Property Name="Patology" Type="float" Nullable="false" />
     <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
   </EntityType>

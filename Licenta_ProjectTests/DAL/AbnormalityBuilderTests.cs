@@ -18,7 +18,7 @@ namespace Licenta_Project.DAL.Tests
             abnormalityBuilder.BuildLessionType("LESION_TYPE MASS SHAPE IRREGULAR MARGINS SPICULATED");
             var abnormality = abnormalityBuilder.Abnormality;
 
-            Assert.AreEqual(abnormality.LessionType, LessionType.Mass);
+            Assert.AreEqual(abnormality.LessionType, "MASS");
         }
 
         [TestMethod()]
@@ -28,7 +28,7 @@ namespace Licenta_Project.DAL.Tests
             abnormalityBuilder.BuildLessionType("LESION_TYPE CALCIFICATION TYPE PLEOMORPHIC DISTRIBUTION SEGMENTAL");
             var abnormality = abnormalityBuilder.Abnormality;
 
-            Assert.AreEqual(abnormality.LessionType, LessionType.Calcification);
+            Assert.AreEqual(abnormality.LessionType, "CALCIFICATION");
         }
     }
 }

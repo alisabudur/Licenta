@@ -14,6 +14,8 @@
           <Property Name="ImageMean" Type="float" Nullable="false" />
           <Property Name="ImageMedian" Type="float" Nullable="false" />
           <Property Name="ImageStdDev" Type="float" Nullable="false" />
+          <Property Name="ImageSkew" Type="float" Nullable="false" />
+          <Property Name="ImageKurt" Type="float" Nullable="false" />
           <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Density" Type="float" Nullable="false" />
         </EntityType>
@@ -22,7 +24,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LessionType" Type="float" Nullable="false" />
           <Property Name="Patology" Type="float" Nullable="false" />
           <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
@@ -47,6 +48,8 @@
           <Property Name="ImageMean" Type="Double" Nullable="false" />
           <Property Name="ImageMedian" Type="Double" Nullable="false" />
           <Property Name="ImageStdDev" Type="Double" Nullable="false" />
+          <Property Name="ImageSkew" Type="Double" Nullable="false" />
+          <Property Name="ImageKurt" Type="Double" Nullable="false" />
           <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Density" Type="Double" Nullable="false" />
         </EntityType>
@@ -55,7 +58,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LessionType" Type="Double" Nullable="false" />
           <Property Name="Patology" Type="Double" Nullable="false" />
           <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
@@ -70,6 +72,8 @@
               <MappingFragment StoreEntitySet="Input">
                 <ScalarProperty Name="Density" ColumnName="Density" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ImageKurt" ColumnName="ImageKurt" />
+                <ScalarProperty Name="ImageSkew" ColumnName="ImageSkew" />
                 <ScalarProperty Name="ImageStdDev" ColumnName="ImageStdDev" />
                 <ScalarProperty Name="ImageMedian" ColumnName="ImageMedian" />
                 <ScalarProperty Name="ImageMean" ColumnName="ImageMean" />
@@ -83,7 +87,6 @@
               <MappingFragment StoreEntitySet="Output">
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="Patology" ColumnName="Patology" />
-                <ScalarProperty Name="LessionType" ColumnName="LessionType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

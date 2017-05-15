@@ -15,26 +15,37 @@ namespace Licenta_Project.DAL
             Abnormality = new Abnormality();
         }
 
-        public void BuildLessionType(string lessionType)
+        public void BuildLessionType(string line)
         {
-            var lession = lessionType
+            var lession = line
                 .Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries)
                 .ToArray()
                 .GetValue(1)
                 .ToString();
 
-            switch (lession)
-            {
-                case Constants.MASS:
-                    Abnormality.LessionType = LessionType.Mass;
-                    break;
-                case Constants.CALCIFICATION:
-                    Abnormality.LessionType = LessionType.Calcification;
-                    break;
-                default:
-                    Abnormality.LessionType = LessionType.Undefined;
-                    break;
-            }
+            Abnormality.LessionType = lession;
+        }
+
+        public void BuildShape(string line)
+        {
+            var shape = line
+                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .ToArray()
+                .GetValue(3)
+                .ToString();
+
+            Abnormality.Shape = shape;
+        }
+
+        public void BuildMargins(string line)
+        {
+            var margins = line
+                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .ToArray()
+                .GetValue(3)
+                .ToString();
+
+            Abnormality.Margins = margins;
         }
 
         public void BuildAssesment(int assesment)

@@ -6,6 +6,8 @@
         <MappingFragment StoreEntitySet="Input">
           <ScalarProperty Name="Density" ColumnName="Density" />
           <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="ImageKurt" ColumnName="ImageKurt" />
+          <ScalarProperty Name="ImageSkew" ColumnName="ImageSkew" />
           <ScalarProperty Name="ImageStdDev" ColumnName="ImageStdDev" />
           <ScalarProperty Name="ImageMedian" ColumnName="ImageMedian" />
           <ScalarProperty Name="ImageMean" ColumnName="ImageMean" />
@@ -19,7 +21,6 @@
         <MappingFragment StoreEntitySet="Output">
           <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
           <ScalarProperty Name="Patology" ColumnName="Patology" />
-          <ScalarProperty Name="LessionType" ColumnName="LessionType" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
