@@ -42,3 +42,9 @@ D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\AForge.Imaging.dll
 D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\AForge.Imaging.xml
 D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\EntityFramework.dll
 D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\EntityFramework.xml
+D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\PostSharp.dll
+D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\NLog.dll
+D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\PostSharp.xml
+D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\NLog.xml
+D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\EntityFramework.SqlServer.dll
+D:\Facultate\Licenta\Licenta\Licenta_ProjectTests\bin\Debug\EntityFramework.SqlServer.xml

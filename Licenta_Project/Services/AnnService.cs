@@ -16,12 +16,12 @@ namespace Licenta_Project.Services
     public class AnnService
     {
         private readonly List<Case> _cases;
-        private readonly DDSM _ddsm;
+        private readonly DdsmFileRepository _ddsm;
 
         public AnnService()
         {
-            _ddsm = new DDSM();
-            _ddsm.GetCases();
+            _ddsm = new DdsmFileRepository();
+            _ddsm.LoadCasesFromFiles();
             _cases = _ddsm.Cases.ToList();
         }
 
@@ -62,7 +62,6 @@ namespace Licenta_Project.Services
             inputItem[5] = imageStatistics.Kurt;
 
             var outputNetwork = network.Compute(inputItem);
-            throw new Exception("Test exception");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="443" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="4.3.33.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="548" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="4.3.33.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[Licenta_Project]Licenta_Project.Aspects.LogAspect">
-    <Instance Declaration="#2=T:[Licenta_Project]Licenta_Project.Program" Id="ac9bdd965f3ee365">
+    <Instance Declaration="#2=T:[Licenta_Project]Licenta_Project.Program" Id="ac9bdd964806fd28">
       <Target Target="#3=M:[Licenta_Project]Licenta_Project.Program::Main(System.String[])">
         <JoinPoint Description="#4=Wrapped by advice(s) OnEntry" Ordinal="0" LinesAvoided="2" />
         <JoinPoint Description="#5=Wrapped by advice(s) OnExit" LinesAvoided="2" />
@@ -9,7 +9,7 @@
         <JoinPoint Description="#7=Wrapped by advice(s) OnException" Ordinal="3" LinesAvoided="2" />
       </Target>
     </Instance>
-    <Instance Declaration="#8=T:[Licenta_Project]Licenta_Project.Services.AnnService" Id="ac9bdd96907f0040">
+    <Instance Declaration="#8=T:[Licenta_Project]Licenta_Project.Services.AnnService" Id="ac9bdd963e8e446b">
       <Target Target="#9=M:[Licenta_Project]Licenta_Project.Services.AnnService::Ann()">
         <JoinPoint Description="#4" Ordinal="4" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="5" LinesAvoided="2" />
@@ -17,74 +17,74 @@
         <JoinPoint Description="#7" Ordinal="7" LinesAvoided="2" />
       </Target>
     </Instance>
-    <Instance Declaration="#10=T:[Licenta_Project]Licenta_Project.DAL.DDSM" Id="ac9bdd964bcb81ce">
-      <Target Target="#11=M:[Licenta_Project]Licenta_Project.DAL.DDSM::get_Cases()">
+    <Instance Declaration="#10=T:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository" Id="ac9bdd967ed0ca07">
+      <Target Target="#11=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::get_Cases()">
         <JoinPoint Description="#4" Ordinal="8" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="9" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="10" />
         <JoinPoint Description="#7" Ordinal="11" LinesAvoided="2" />
       </Target>
-      <Target Target="#12=M:[Licenta_Project]Licenta_Project.DAL.DDSM::set_Cases(System.Collections.Generic.IEnumerable{[Licenta_Project]Licenta_Project.DAL.Case})">
+      <Target Target="#12=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::set_Cases(System.Collections.Generic.IEnumerable{[Licenta_Project]Licenta_Project.DAL.Case})">
         <JoinPoint Description="#4" Ordinal="12" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="13" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="14" />
         <JoinPoint Description="#7" Ordinal="15" LinesAvoided="2" />
       </Target>
-      <Target Target="#13=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetCases()">
+      <Target Target="#13=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::LoadCasesFromFiles()">
         <JoinPoint Description="#4" Ordinal="16" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="17" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="18" />
         <JoinPoint Description="#7" Ordinal="19" LinesAvoided="2" />
       </Target>
-      <Target Target="#14=M:[Licenta_Project]Licenta_Project.DAL.DDSM::PutInputInDb()">
+      <Target Target="#14=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::PutInputInDb()">
         <JoinPoint Description="#4" Ordinal="20" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="21" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="22" />
         <JoinPoint Description="#7" Ordinal="23" LinesAvoided="2" />
       </Target>
-      <Target Target="#15=M:[Licenta_Project]Licenta_Project.DAL.DDSM::PutOutputInDb()">
+      <Target Target="#15=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::PutOutputInDb()">
         <JoinPoint Description="#4" Ordinal="24" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="25" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="26" />
         <JoinPoint Description="#7" Ordinal="27" LinesAvoided="2" />
       </Target>
-      <Target Target="#16=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetInputFromDb()">
+      <Target Target="#16=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::GetInputFromDb()">
         <JoinPoint Description="#4" Ordinal="28" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="29" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="30" />
         <JoinPoint Description="#7" Ordinal="31" LinesAvoided="2" />
       </Target>
-      <Target Target="#17=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetOutputFromDb()">
+      <Target Target="#17=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::GetOutputFromDb()">
         <JoinPoint Description="#4" Ordinal="32" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="33" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="34" />
         <JoinPoint Description="#7" Ordinal="35" LinesAvoided="2" />
       </Target>
-      <Target Target="#18=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetFromWorkingDirectory(System.String)">
+      <Target Target="#18=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::GetFromWorkingDirectory(System.String)">
         <JoinPoint Description="#4" Ordinal="36" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="37" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="38" />
         <JoinPoint Description="#7" Ordinal="39" LinesAvoided="2" />
       </Target>
-      <Target Target="#19=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetPNGFiles(System.String)">
+      <Target Target="#19=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::GetPNGFiles(System.String)">
         <JoinPoint Description="#4" Ordinal="40" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="41" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="42" />
         <JoinPoint Description="#7" Ordinal="43" LinesAvoided="2" />
       </Target>
-      <Target Target="#20=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetPatientAge(System.String)">
+      <Target Target="#20=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::GetPatientAge(System.String)">
         <JoinPoint Description="#4" Ordinal="44" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="45" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="46" />
         <JoinPoint Description="#7" Ordinal="47" LinesAvoided="2" />
       </Target>
-      <Target Target="#21=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetDensity(System.String)">
+      <Target Target="#21=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::GetDensity(System.String)">
         <JoinPoint Description="#4" Ordinal="48" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="49" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="50" />
         <JoinPoint Description="#7" Ordinal="51" LinesAvoided="2" />
       </Target>
-      <Target Target="#22=M:[Licenta_Project]Licenta_Project.DAL.DDSM::GetOverlayFiles(System.String)">
+      <Target Target="#22=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::GetOverlayFiles(System.String)">
         <JoinPoint Description="#4" Ordinal="52" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="53" LinesAvoided="2" />
         <JoinPoint Description="#6" Ordinal="54" />

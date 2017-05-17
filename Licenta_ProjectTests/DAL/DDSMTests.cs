@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace Licenta_Project.DAL.Tests
 {
     [TestClass()]
-    public class DDSMTests
+    public class DdsmFileRepositoryTests
     {
         [TestMethod()]
-        public void GetCasesTest()
+        public void LoadCasesTest()
         {
-            var ddsm = new DDSM();
-            ddsm.GetCases();
+            var ddsm = new DdsmFileRepository();
+            ddsm.LoadCasesFromFiles();
             var cases = ddsm.Cases;
             var ddsmCase = cases.FirstOrDefault(c => c.Images[ImageName.LeftCC].ImagePath.Contains("C_0001_1"));
             if (ddsmCase == null)

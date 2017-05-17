@@ -15,22 +15,22 @@ using Licenta_Project.Aspects;
 namespace Licenta_Project.DAL
 {
     [LogAspect]
-    public class DDSM
+    public class DdsmFileRepository: IDdsmFileRepository
     {
         private readonly string _baseDirectoryPath;
         private readonly IEnumerable<string> _workingDirectoriesPaths;
-        private readonly DDSMEntities _dbContext;
+        private readonly DdsmContext _dbContext;
 
         public IEnumerable<Case> Cases { get; private set; }
 
-        public DDSM()
+        public DdsmFileRepository()
         {
             _baseDirectoryPath = ConfigurationManager.AppSettings["BaseDirectory"];
             _workingDirectoriesPaths = ConfigurationManager.AppSettings["WorkingDirectories"].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            _dbContext = new DDSMEntities();
+            _dbContext = new DdsmContext();
         }
 
-        public void GetCases()
+        public void LoadCasesFromFiles()
         {
             var cases = new List<Case>();
             foreach (var workingDirectoryPath in _workingDirectoriesPaths)
@@ -69,7 +69,6 @@ namespace Licenta_Project.DAL
                     }
                 }
             }
-            
         }
 
         public void PutOutputInDb()

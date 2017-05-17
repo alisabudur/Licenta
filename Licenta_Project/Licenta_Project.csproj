@@ -77,69 +77,40 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aspects\LogAspect.cs" />
-    <Compile Include="DAL\DbModels.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModels.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\DbModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\DbModels.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModels.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Entities\Abnormality.cs" />
+    <Compile Include="DAL\DbEntities\Configurations\BaseEntityConfiguration.cs" />
+    <Compile Include="DAL\DbEntities\Configurations\InputConfiguration.cs" />
+    <Compile Include="DAL\DbEntities\Configurations\OutputConfiguration.cs" />
+    <Compile Include="DAL\DbEntities\IBaseEntity.cs" />
+    <Compile Include="DAL\DbEntities\Input.cs" />
+    <Compile Include="DAL\DbEntities\Output.cs" />
+    <Compile Include="DAL\DdsmContext.cs" />
+    <Compile Include="DAL\FileEntities\Abnormality.cs" />
     <Compile Include="DAL\Builders\AbnormalityBuilder.cs" />
-    <Compile Include="DAL\Entities\Case.cs" />
+    <Compile Include="DAL\FileEntities\Case.cs" />
     <Compile Include="DAL\Builders\CaseBuilder.cs" />
     <Compile Include="DAL\Constants.cs" />
-    <Compile Include="DAL\DDSM.cs" />
-    <Compile Include="DAL\Entities\CaseImage.cs" />
-    <Compile Include="DAL\Entities\Outline.cs" />
-    <Compile Include="DAL\Entities\Overlay.cs" />
+    <Compile Include="DAL\Repositories\DdsmFileRepository.cs" />
+    <Compile Include="DAL\FileEntities\CaseImage.cs" />
+    <Compile Include="DAL\FileEntities\Outline.cs" />
+    <Compile Include="DAL\FileEntities\Overlay.cs" />
     <Compile Include="DAL\Builders\OverlayBuilder.cs" />
-    <Compile Include="DAL\Enums.cs" />
-    <Compile Include="DAL\Input.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Output.cs">
-      <DependentUpon>DbModels.tt</DependentUpon>
-    </Compile>
+    <Compile Include="DAL\FileEntities\Enums.cs" />
+    <Compile Include="DAL\Repositories\BaseEntityRepository.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IBaseEntityResitory.cs" />
+    <Compile Include="DAL\Repositories\Interfaces\IDdsmFileRepository.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AnnService.cs" />
+    <Compile Include="Services\DdsmService.cs" />
     <Compile Include="Services\StatisticsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="DAL\DbModels.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DbModels.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="DAL\DbModels.edmx.diagram">
-      <DependentUpon>DbModels.edmx</DependentUpon>
-    </None>
     <None Include="NLog.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DAL\DbModels.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DbModels.Context.cs</LastGenOutput>
-      <DependentUpon>DbModels.edmx</DependentUpon>
-    </Content>
-    <Content Include="DAL\DbModels.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbModels.edmx</DependentUpon>
-      <LastGenOutput>DbModels.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
