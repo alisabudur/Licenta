@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="548" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="4.3.33.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="620" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="4.3.33.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[Licenta_Project]Licenta_Project.Aspects.LogAspect">
-    <Instance Declaration="#2=T:[Licenta_Project]Licenta_Project.Program" Id="ac9bdd964806fd28">
+    <Instance Declaration="#2=T:[Licenta_Project]Licenta_Project.Program" Id="ac9bdd964808643f">
       <Target Target="#3=M:[Licenta_Project]Licenta_Project.Program::Main(System.String[])">
         <JoinPoint Description="#4=Wrapped by advice(s) OnEntry" Ordinal="0" LinesAvoided="2" />
         <JoinPoint Description="#5=Wrapped by advice(s) OnExit" LinesAvoided="2" />
@@ -9,7 +9,7 @@
         <JoinPoint Description="#7=Wrapped by advice(s) OnException" Ordinal="3" LinesAvoided="2" />
       </Target>
     </Instance>
-    <Instance Declaration="#8=T:[Licenta_Project]Licenta_Project.Services.AnnService" Id="ac9bdd963e8e446b">
+    <Instance Declaration="#8=T:[Licenta_Project]Licenta_Project.Services.AnnService" Id="ac9bdd96d72fe8df">
       <Target Target="#9=M:[Licenta_Project]Licenta_Project.Services.AnnService::Ann()">
         <JoinPoint Description="#4" Ordinal="4" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="5" LinesAvoided="2" />
@@ -17,7 +17,7 @@
         <JoinPoint Description="#7" Ordinal="7" LinesAvoided="2" />
       </Target>
     </Instance>
-    <Instance Declaration="#10=T:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository" Id="ac9bdd967ed0ca07">
+    <Instance Declaration="#10=T:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository" Id="ac9bdd96fd8f20c0">
       <Target Target="#11=M:[Licenta_Project]Licenta_Project.DAL.DdsmFileRepository::get_Cases()">
         <JoinPoint Description="#4" Ordinal="8" LinesAvoided="2" />
         <JoinPoint Description="#5" Ordinal="9" LinesAvoided="2" />

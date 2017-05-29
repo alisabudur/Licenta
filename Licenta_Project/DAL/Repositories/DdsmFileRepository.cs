@@ -51,17 +51,18 @@ namespace Licenta_Project.DAL
                 {
                     using (var image = new Bitmap(caseItem.Images[imageKey].ImagePath))
                     {
-                        var imageStatistics = new StatisticsService(image);
+                        var imageStatistics = new ImageStatistics(image);
+                        var histogram = imageStatistics.Red;
 
                         var input = new Input
                         {
                             PatientAge = caseItem.PatientAge,
                             Density = caseItem.Density,
-                            ImageMean = imageStatistics.Mean,
-                            ImageMedian = imageStatistics.Median,
-                            ImageStdDev = imageStatistics.StdDev,
-                            ImageSkew = imageStatistics.Skew,
-                            ImageKurt = imageStatistics.Kurt,
+                            ImageMean = histogram.Mean,
+                            ImageMedian = histogram.Median,
+                            ImageStdDev = histogram.StdDev,
+                            ImageSkew = histogram.Skew(),
+                            ImageKurt = histogram.Kurt(),
                             ImagePath = caseItem.Images[imageKey].ImagePath
                         };
                         _dbContext.Inputs.Add(input);
