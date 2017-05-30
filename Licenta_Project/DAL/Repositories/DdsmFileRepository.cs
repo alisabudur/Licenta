@@ -41,7 +41,7 @@ namespace Licenta_Project.DAL
             Cases = cases;
         }
 
-        public void PutInputInDb()
+        public void PutCasesInDb()
         {
             var workCases = Cases.ToList();
 
@@ -54,7 +54,7 @@ namespace Licenta_Project.DAL
                         var imageStatistics = new ImageStatistics(image);
                         var histogram = imageStatistics.Red;
 
-                        var input = new Input
+                        var input = new DbCase
                         {
                             PatientAge = caseItem.PatientAge,
                             Density = caseItem.Density,
@@ -63,50 +63,25 @@ namespace Licenta_Project.DAL
                             ImageStdDev = histogram.StdDev,
                             ImageSkew = histogram.Skew(),
                             ImageKurt = histogram.Kurt(),
-                            ImagePath = caseItem.Images[imageKey].ImagePath
-                        };
-                        _dbContext.Inputs.Add(input);
+                            ImagePath = caseItem.Images[imageKey].ImagePath,
+                            Patology = (double)caseItem.Images[imageKey].Overlay.Abnormalities
+                            .ToList()
+                            .First()
+                            .Patology
+                    };
+                        _dbContext.DbCases.Add(input);
                         _dbContext.SaveChanges();
                     }
                 }
             }
         }
 
-        public void PutOutputInDb()
-        {
-            var workCases = Cases.ToList();
-
-            foreach (var caseItem in workCases)
-            {
-                foreach (var imageKey in caseItem.Images.Keys)
-                {
-                    var output = new Output();
-
-                    if (caseItem.Images[imageKey].Overlay != null)
-                    {
-                        output.Patology = (double)caseItem.Images[imageKey].Overlay.Abnormalities
-                            .ToList()
-                            .First()
-                            .Patology;
-                        output.ImagePath = caseItem.Images[imageKey].ImagePath;
-                    }
-                    else
-                    {
-                        output.Patology = (double)Patology.Normal;
-                        output.ImagePath = caseItem.Images[imageKey].ImagePath;
-                    };
-                    _dbContext.Outputs.Add(output);
-                    _dbContext.SaveChanges();
-                }
-            }
-        }
-
-        public double[][] GetInputFromDb()
+        public double[][] GetCasesFromDb()
         {
             var index = 0;
-            var result = new double[_dbContext.Inputs.Count()][];
+            var result = new double[_dbContext.DbCases.Count()][];
 
-            foreach (var input in _dbContext.Inputs)
+            foreach (var input in _dbContext.DbCases)
             {
                 var resultItem = new double[6];
                 resultItem[0] = input.PatientAge;
@@ -115,21 +90,6 @@ namespace Licenta_Project.DAL
                 resultItem[3] = input.ImageStdDev;
                 resultItem[4] = input.ImageSkew;
                 resultItem[5] = input.ImageKurt;
-                result[index] = resultItem;
-                index++;
-            }
-            return result;
-        }
-
-        public double[][] GetOutputFromDb()
-        {
-            var index = 0;
-            var result = new double[_dbContext.Inputs.Count()][];
-
-            foreach (var output in _dbContext.Outputs)
-            {
-                var resultItem = new double[1];
-                resultItem[0] = output.Patology;
                 result[index] = resultItem;
                 index++;
             }

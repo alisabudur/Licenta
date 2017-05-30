@@ -14,20 +14,17 @@ namespace Licenta_Project.Services
     {
         #region Fields
         private IDdsmFileRepository _ddsmFileRepository;
-        private IBaseEntityRepository<Input> _inputRepository;
-        private IBaseEntityRepository<Output> _outputRepository;
+        private IBaseEntityRepository<DbCase> _dbCaseRepository;
         #endregion
 
         #region Constructor
         public DdsmService(
             IDdsmFileRepository ddsmFileRepository,
-            IBaseEntityRepository<Input> inputRepository,
-            IBaseEntityRepository<Output> outputRepository
+            IBaseEntityRepository<DbCase> caseRepository
             )
         {
             _ddsmFileRepository = ddsmFileRepository;
-            _inputRepository = inputRepository;
-            _outputRepository = outputRepository;
+            _dbCaseRepository = caseRepository;
 
             //_ddsmFileRepository.LoadCasesFromFiles();
         }
@@ -37,29 +34,85 @@ namespace Licenta_Project.Services
 
         #region Methods
 
-        public void AddInputInDb()
+        public AnnTrainingData GetTrainingData()
         {
+            var cases = GetShuffledCases();
+            var input = NormalizeInput(cases);
+            var output = NormalizeOutput(cases);
 
+            return new AnnTrainingData
+            {
+                Input = input,
+                Output = output
+            };
         }
 
-        public double[][] GetInputNormalized()
+        public double[] NormalizeInputItem(DbCase dbCase)
         {
-            var inputs = _inputRepository.GetAll().ToList();
-            var result = NormalizeInput(inputs);
-            return result;
+            //TODO add dbCase in cases in the future!!!
+
+            var cases = _dbCaseRepository.GetAll().ToList();
+            #region Initialize Mean & StdDev
+
+            var meanPacientAge = cases.Average(p => p.PatientAge);
+            var stdDevPatientApe = cases.Select(p => p.PatientAge).StdDev();
+
+            var meanDensity = cases.Average(p => p.Density);
+            var stdDevDensity = cases.Select(p => p.Density).StdDev();
+
+            var meanImageMean = cases.Average(p => p.ImageMean);
+            var stdDevImageMean = cases.Select(p => p.ImageMean).StdDev();
+
+            var meanImageMedian = cases.Average(p => p.ImageMedian);
+            var stdDevImageMedian = cases.Select(p => p.ImageMedian).StdDev();
+
+            var meanImageStdDev = cases.Average(p => p.ImageStdDev);
+            var stdDevImageStdDev = cases.Select(p => p.ImageStdDev).StdDev();
+
+            var meanImageSkew = cases.Average(p => p.ImageSkew);
+            var stdDevImageSkew = cases.Select(p => p.ImageSkew).StdDev();
+
+            var meanImageKurt = cases.Average(p => p.ImageKurt);
+            var stdDevImageKurt = cases.Select(p => p.ImageKurt).StdDev();
+
+            #endregion
+
+            return new double[]
+            {
+
+                (dbCase.PatientAge - meanPacientAge) / stdDevPatientApe,
+                (dbCase.Density - meanDensity) / stdDevDensity,
+                (dbCase.ImageMean - meanImageMean) / stdDevImageMean,
+                (dbCase.ImageMedian - meanImageMedian) / stdDevImageMedian,
+                (dbCase.ImageStdDev - meanImageStdDev) / stdDevImageStdDev,
+                (dbCase.ImageSkew - meanImageSkew) / stdDevImageSkew,
+                (dbCase.ImageKurt - meanImageKurt) / stdDevImageKurt
+
+            };
         }
 
-        public double[][] GetOutputNormalized()
+        private IEnumerable<DbCase> GetShuffledCases()
         {
-            var outputs = _outputRepository.GetAll().ToList();
-            var result = NormalizeOutput(outputs);
-            return result;
+            var benings = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Benign).ToArray();
+            var maligns = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Malignant).ToArray();
+            //var normals = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Normal).ToArray();
+
+            var count = new int[] { benings.Length, maligns.Length/*, normals.Length*/ }.Min();
+            var cases = new List<DbCase>();
+
+            for (var i = 0; i < count; i++)
+            {
+                cases.Add(benings[i]);
+                cases.Add(maligns[i]);
+                //cases.Add(normals[i]);
+            }
+            return cases;
         }
 
-        private IEnumerable<Input> GetInputFromFile()
+        private IEnumerable<DbCase> GetCasesFromFile()
         {
             var workCases = _ddsmFileRepository.Cases.ToList();
-            var inputs = new List<Input>();
+            var inputs = new List<DbCase>();
 
             foreach (var caseItem in workCases)
             {
@@ -70,7 +123,7 @@ namespace Licenta_Project.Services
                         var imageStatistics = new ImageStatistics(image);
                         var histogram = imageStatistics.Red;
 
-                        var input = new Input
+                        var input = new DbCase
                         {
                             PatientAge = caseItem.PatientAge,
                             Density = caseItem.Density,
@@ -79,7 +132,11 @@ namespace Licenta_Project.Services
                             ImageStdDev = histogram.StdDev,
                             ImageSkew = histogram.Skew(),
                             ImageKurt = histogram.Kurt(),
-                            ImagePath = caseItem.Images[imageKey].ImagePath
+                            ImagePath = caseItem.Images[imageKey].ImagePath,
+                            Patology = (double)caseItem.Images[imageKey].Overlay.Abnormalities
+                            .ToList()
+                            .First()
+                            .Patology
                         };
                         inputs.Add(input);
                     }
@@ -88,37 +145,7 @@ namespace Licenta_Project.Services
             return inputs;
         }
 
-        private IEnumerable<Output> GetOutputFromFile()
-        {
-            var workCases = _ddsmFileRepository.Cases.ToList();
-            var outputs = new List<Output>();
-
-            foreach (var caseItem in workCases)
-            {
-                foreach (var imageKey in caseItem.Images.Keys)
-                {
-                    var output = new Output();
-
-                    if (caseItem.Images[imageKey].Overlay != null)
-                    {
-                        output.Patology = (double)caseItem.Images[imageKey].Overlay.Abnormalities
-                            .ToList()
-                            .First()
-                            .Patology;
-                        output.ImagePath = caseItem.Images[imageKey].ImagePath;
-                    }
-                    else
-                    {
-                        output.Patology = (double)Patology.Normal;
-                        output.ImagePath = caseItem.Images[imageKey].ImagePath;
-                    };
-                    outputs.Add(output);
-                }
-            }
-            return outputs;
-        }
-
-        private double[][] NormalizeInput(IEnumerable<Input> inputs)
+        private double[][] NormalizeInput(IEnumerable<DbCase> inputs)
         {
             #region Initialize Mean & StdDev
 
@@ -162,7 +189,9 @@ namespace Licenta_Project.Services
             return normalizeInputs;
         }
 
-        private double[][] NormalizeOutput(IEnumerable<Output> output)
+
+
+        private double[][] NormalizeOutput(IEnumerable<DbCase> output)
         {
             var values = output.Select(p => GetPatology(p.Patology)).ToArray();
             return values;
@@ -171,17 +200,12 @@ namespace Licenta_Project.Services
         private double[] GetPatology(double patology)
         {
             var value = (Patology)patology;
-            switch (value)
-            {
-                case Patology.Benign:
-                    return new double[] { 1, 0, 0, 0 };
-                case Patology.Malignant:
-                    return new double[] { 0, 0, 1, 0 };
-                case Patology.Normal:
-                    return new double[] { 0, 1, 0, 0 };
-                default:
-                    return new double[] { 0, 0, 0, 1 };
-            }
+
+            if (value == Patology.Benign)
+                return new double[] { 1, -1};
+            //if (value == Patology.Malignant)
+                return new double[] { -1, 1};
+            //return new double[] { 0, 0, 1 };
         }
         #endregion
     }

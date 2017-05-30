@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Licenta_Project.DAL
 {
-    public class InputConfiguration: BaseEntityConfiguration<Input>
+    public class DbCaseConfiguration: BaseEntityConfiguration<DbCase>
     {
-        public InputConfiguration()
+        public DbCaseConfiguration()
         {
             Property(p => p.PatientAge).IsRequired();
             Property(p => p.Density).IsRequired();
@@ -18,6 +18,7 @@ namespace Licenta_Project.DAL
             Property(p => p.ImageSkew).IsRequired();
             Property(p => p.ImageKurt).IsRequired();
             Property(p => p.ImagePath).IsRequired().HasMaxLength(255);
+            Property(p => p.Patology).IsRequired();
         }
     }
 }

@@ -15,13 +15,11 @@ namespace Licenta_Project.DAL
             
         }
 
-        public virtual DbSet<Input> Inputs { get; set; }
-        public virtual DbSet<Output> Outputs { get; set; }
+        public virtual DbSet<DbCase> DbCases { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new InputConfiguration());
-            modelBuilder.Configurations.Add(new OutputConfiguration());
+            modelBuilder.Configurations.Add(new DbCaseConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

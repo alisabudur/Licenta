@@ -11,20 +11,20 @@ namespace Licenta_Project.DAL.Tests
     [TestClass()]
     public class BaseEntityRepositoryTests
     {
-        private IBaseEntityRepository<Input> _inputRepository;
+        private IBaseEntityRepository<DbCase> _casesRepository;
 
         public BaseEntityRepositoryTests()
         {
             var context = new DdsmContext();
-            _inputRepository = new BaseEntityRepository<Input>(context);
+            _casesRepository = new BaseEntityRepository<DbCase>(context);
         }
 
         [TestMethod()]
         public void GetAllTest()
         {
-            var inputs = _inputRepository.GetAll().ToList();
-            Assert.IsNotNull(inputs);
-            Assert.IsTrue(inputs.Any());
+            var cases = _casesRepository.GetAll().ToList();
+            Assert.IsNotNull(cases);
+            Assert.IsTrue(cases.Any());
         }
     }
 }
