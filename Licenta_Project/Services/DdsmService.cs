@@ -5,28 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AForge.Imaging;
+using Licenta_Project.Common;
 using Licenta_Project.DAL;
-using Licenta_Project.Extensions;
 
 namespace Licenta_Project.Services
 {
     public class DdsmService
     {
         #region Fields
-        private IDdsmFileRepository _ddsmFileRepository;
         private IBaseEntityRepository<DbCase> _dbCaseRepository;
         #endregion
 
         #region Constructor
         public DdsmService(
-            IDdsmFileRepository ddsmFileRepository,
             IBaseEntityRepository<DbCase> caseRepository
             )
         {
-            _ddsmFileRepository = ddsmFileRepository;
             _dbCaseRepository = caseRepository;
-
-            //_ddsmFileRepository.LoadCasesFromFiles();
         }
 
         #endregion
@@ -95,54 +90,18 @@ namespace Licenta_Project.Services
         {
             var benings = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Benign).ToArray();
             var maligns = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Malignant).ToArray();
-            //var normals = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Normal).ToArray();
+            var normals = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Normal).ToArray();
 
-            var count = new int[] { benings.Length, maligns.Length/*, normals.Length*/ }.Min();
+            var count = new int[] { benings.Length, maligns.Length, normals.Length }.Min();
             var cases = new List<DbCase>();
 
             for (var i = 0; i < count; i++)
             {
                 cases.Add(benings[i]);
                 cases.Add(maligns[i]);
-                //cases.Add(normals[i]);
+                cases.Add(normals[i]);
             }
             return cases;
-        }
-
-        private IEnumerable<DbCase> GetCasesFromFile()
-        {
-            var workCases = _ddsmFileRepository.Cases.ToList();
-            var inputs = new List<DbCase>();
-
-            foreach (var caseItem in workCases)
-            {
-                foreach (var imageKey in caseItem.Images.Keys)
-                {
-                    using (var image = new Bitmap(caseItem.Images[imageKey].ImagePath))
-                    {
-                        var imageStatistics = new ImageStatistics(image);
-                        var histogram = imageStatistics.Red;
-
-                        var input = new DbCase
-                        {
-                            PatientAge = caseItem.PatientAge,
-                            Density = caseItem.Density,
-                            ImageMean = histogram.Mean,
-                            ImageMedian = histogram.Median,
-                            ImageStdDev = histogram.StdDev,
-                            ImageSkew = histogram.Skew(),
-                            ImageKurt = histogram.Kurt(),
-                            ImagePath = caseItem.Images[imageKey].ImagePath,
-                            Patology = (double)caseItem.Images[imageKey].Overlay.Abnormalities
-                            .ToList()
-                            .First()
-                            .Patology
-                        };
-                        inputs.Add(input);
-                    }
-                }
-            }
-            return inputs;
         }
 
         private double[][] NormalizeInput(IEnumerable<DbCase> inputs)
@@ -189,8 +148,6 @@ namespace Licenta_Project.Services
             return normalizeInputs;
         }
 
-
-
         private double[][] NormalizeOutput(IEnumerable<DbCase> output)
         {
             var values = output.Select(p => GetPatology(p.Patology)).ToArray();
@@ -202,10 +159,10 @@ namespace Licenta_Project.Services
             var value = (Patology)patology;
 
             if (value == Patology.Benign)
-                return new double[] { 1, -1};
-            //if (value == Patology.Malignant)
-                return new double[] { -1, 1};
-            //return new double[] { 0, 0, 1 };
+                return new double[] { 0, 0, 1};
+            if (value == Patology.Malignant)
+                return new double[] { 0, 1, 0};
+            return new double[] { 1, 0, 0 };
         }
         #endregion
     }

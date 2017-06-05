@@ -68,7 +68,6 @@
     <Compile Include="DAL\CaseBuilderTests.cs" />
     <Compile Include="DAL\DDSMTests.cs" />
     <Compile Include="DAL\OverlayBuilderTests.cs" />
-    <Compile Include="DAL\Repositories\BaseEntityRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +77,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Licenta_Project.Utilities\Licenta_Project.FileUtility.csproj">
+      <Project>{B8DF5DE5-B714-49C8-87B2-78EAC4B142AF}</Project>
+      <Name>Licenta_Project.FileUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Licenta_Project\Licenta_Project.csproj">
       <Project>{F4AA4F1F-A5A9-4F5B-B14A-0CC2DFE817C0}</Project>
       <Name>Licenta_Project</Name>

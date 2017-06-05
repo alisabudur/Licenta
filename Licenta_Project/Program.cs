@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AForge.Imaging;
-using Licenta_Project.Aspects;
+using Licenta_Project.Common;
 using Licenta_Project.DAL;
-using Licenta_Project.Extensions;
 using Licenta_Project.Services;
 
 namespace Licenta_Project
@@ -20,7 +19,6 @@ namespace Licenta_Project
             var context = new DdsmContext();
             var ddsm = new DdsmService
             (
-                new DdsmFileRepository(),
                 new BaseEntityRepository<DbCase>(context)
             );
 
@@ -35,12 +33,12 @@ namespace Licenta_Project
 
             var imageStatistics =
                 new ImageStatistics(
-                    new Bitmap(@"G:\DDSM-images\cases\cancers\cancer_01\case0011\PNGFiles\C_0011_1.LEFT_CC.png"));
+                    new Bitmap(@"G:\DDSM-images\cases\cancers\cancer_15\case0005\PNGFiles\C_0005_1.LEFT_MLO.png"));
             var histogram = imageStatistics.Red;
             var newDbCase = new DbCase
             {
-                PatientAge = 71,
-                Density = 1,
+                PatientAge = 55,
+                Density = 2,
                 ImageMean = histogram.Mean,
                 ImageMedian = histogram.Median,
                 ImageStdDev = histogram.StdDev,

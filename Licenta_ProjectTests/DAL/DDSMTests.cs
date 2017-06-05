@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Licenta_Project.FileUtility;
 
 namespace Licenta_Project.DAL.Tests
 {
@@ -14,7 +15,7 @@ namespace Licenta_Project.DAL.Tests
         [TestMethod()]
         public void LoadCasesTest()
         {
-            var ddsm = new DdsmFileRepository();
+            var ddsm = new DdsmFileUtility();
             ddsm.LoadCasesFromFiles();
             var cases = ddsm.Cases;
             var ddsmCase = cases.FirstOrDefault(c => c.Images[ImageName.LeftCC].ImagePath.Contains("C_0001_1"));

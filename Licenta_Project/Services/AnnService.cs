@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 using AForge.Imaging;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
-using Licenta_Project.Aspects;
+using Licenta_Project.Common;
 using Licenta_Project.DAL;
-using Licenta_Project.Extensions;
 
 namespace Licenta_Project.Services
 {
@@ -21,7 +20,7 @@ namespace Licenta_Project.Services
 
         public AnnService()
         {
-            _network = new ActivationNetwork(new SigmoidFunction(), 7, 10, 10, 2);
+            _network = new ActivationNetwork(new SigmoidFunction(), 7, 10, 10, 3);
         }
 
         public void Train(double[][] input, double[][] output)
@@ -35,7 +34,7 @@ namespace Licenta_Project.Services
             var iterations = 0;
             while (!needToStop && iterations <= 10000)
             {
-                error = learning.RunEpoch(input, output) / 996;
+                error = learning.RunEpoch(input, output) / 1590;
                 if (error < 0.1)
                     needToStop = true;
                 iterations++;
@@ -65,11 +64,11 @@ namespace Licenta_Project.Services
             var max = output.Max();
             var positionOfMax = output.ToList().IndexOf(max);
 
-            if(positionOfMax == 0)
-                return Patology.Benign;
-            //if (positionOfMax == 1)
+            if (positionOfMax == 0)
+                return Patology.Normal;
+            if (positionOfMax == 1)
                 return Patology.Malignant;
-            //return Patology.Normal;
+            return Patology.Benign;
         }
     }
 }
