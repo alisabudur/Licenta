@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AForge.Imaging;
 using Licenta_Project.Common;
+using Licenta_Project.Common.Extensions;
 using Licenta_Project.DAL;
 using Licenta_Project.Services;
 
@@ -31,16 +32,16 @@ namespace Licenta_Project
             ann.Train(input, output);
             ann.SaveAnnToFile(@"D:\Facultate\Licenta\Licenta\Licenta_Project\Resources\Network.txt");
 
-            var imageStatistics =
-                new ImageStatistics(
-                    new Bitmap(@"G:\DDSM-images\cases\cancers\cancer_15\case0005\PNGFiles\C_0005_1.LEFT_MLO.png"));
+            var image = new Bitmap(@"G:\DDSM-images\cases\benigns\benign_01\case0029\PNGFiles\C_0029_1.LEFT_CC.png");
+            var imageStatistics = new ImageStatistics(image);
+
             var histogram = imageStatistics.Red;
             var newDbCase = new DbCase
             {
-                PatientAge = 55,
-                Density = 2,
+                PatientAge = 66,
+                Density = 3,
+                MaxBlobArea = histogram.Max,
                 ImageMean = histogram.Mean,
-                ImageMedian = histogram.Median,
                 ImageStdDev = histogram.StdDev,
                 ImageSkew = histogram.Skew(),
                 ImageKurt = histogram.Kurt()

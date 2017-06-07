@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AForge.Imaging;
 using System.Data.Entity;
+using AForge.Imaging.Filters;
 using Licenta_Project.DAL;
 using Licenta_Project.Common;
+using Licenta_Project.Common.Extensions;
 using Licenta_Project.Utilities;
 
 namespace Licenta_Project.FileUtility
@@ -50,7 +52,7 @@ namespace Licenta_Project.FileUtility
             {
                 foreach (var imageKey in caseItem.Images.Keys)
                 {
-                    using (var image = new Bitmap(caseItem.Images[imageKey].ImagePath))
+                    using (var image = GetCropedImage(caseItem.Images[imageKey].ImagePath))
                     {
                         var imageStatistics = new ImageStatistics(image);
                         var histogram = imageStatistics.Red;
@@ -59,8 +61,8 @@ namespace Licenta_Project.FileUtility
                         {
                             PatientAge = caseItem.PatientAge,
                             Density = caseItem.Density,
+                            MaxBlobArea = histogram.Max,
                             ImageMean = histogram.Mean,
-                            ImageMedian = histogram.Median,
                             ImageStdDev = histogram.StdDev,
                             ImageSkew = histogram.Skew(),
                             ImageKurt = histogram.Kurt(),
@@ -70,6 +72,26 @@ namespace Licenta_Project.FileUtility
                         _dbCaseRepository.Add(input);
                     }
                 }
+            }
+        }
+
+        private Bitmap GetCropedImage(string imagePath)
+        {
+            using (var image = new Bitmap(imagePath))
+            {
+                Bitmap newImage = null;
+
+                if (imagePath.ToLower().Contains("left"))
+                {
+                    var filter = new Crop(new Rectangle(100, 800, 2050, 3350));
+                    newImage = filter.Apply(image);
+                }
+                if (imagePath.ToLower().Contains("right"))
+                {
+                    var filter = new Crop(new Rectangle(image.Width - 2100, 800, 2050, 3350));
+                    newImage = filter.Apply(image);
+                }
+                return newImage;
             }
         }
 

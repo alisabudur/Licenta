@@ -58,8 +58,8 @@ namespace Licenta_Project.Services
             var meanImageMean = cases.Average(p => p.ImageMean);
             var stdDevImageMean = cases.Select(p => p.ImageMean).StdDev();
 
-            var meanImageMedian = cases.Average(p => p.ImageMedian);
-            var stdDevImageMedian = cases.Select(p => p.ImageMedian).StdDev();
+            var meanMaxBlobArea = cases.Average(p => p.MaxBlobArea);
+            var stdDevMaxBlobArea = cases.Select(p => p.MaxBlobArea).StdDev();
 
             var meanImageStdDev = cases.Average(p => p.ImageStdDev);
             var stdDevImageStdDev = cases.Select(p => p.ImageStdDev).StdDev();
@@ -77,8 +77,8 @@ namespace Licenta_Project.Services
 
                 (dbCase.PatientAge - meanPacientAge) / stdDevPatientApe,
                 (dbCase.Density - meanDensity) / stdDevDensity,
+                (dbCase.MaxBlobArea - meanMaxBlobArea) / stdDevMaxBlobArea,
                 (dbCase.ImageMean - meanImageMean) / stdDevImageMean,
-                (dbCase.ImageMedian - meanImageMedian) / stdDevImageMedian,
                 (dbCase.ImageStdDev - meanImageStdDev) / stdDevImageStdDev,
                 (dbCase.ImageSkew - meanImageSkew) / stdDevImageSkew,
                 (dbCase.ImageKurt - meanImageKurt) / stdDevImageKurt
@@ -89,16 +89,16 @@ namespace Licenta_Project.Services
         private IEnumerable<DbCase> GetShuffledCases()
         {
             var benings = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Benign).ToArray();
-            var maligns = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Malignant).ToArray();
-            var normals = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Normal).ToArray();
+            //var maligns = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Malignant).ToArray();
+            var normals = _dbCaseRepository.FindBy(d => d.Patology == (double)Patology.Malignant).ToArray();
 
-            var count = new int[] { benings.Length, maligns.Length, normals.Length }.Min();
+            var count = new int[] { benings.Length, /*maligns.Length,*/ normals.Length }.Min();
             var cases = new List<DbCase>();
 
             for (var i = 0; i < count; i++)
             {
                 cases.Add(benings[i]);
-                cases.Add(maligns[i]);
+                //cases.Add(maligns[i]);
                 cases.Add(normals[i]);
             }
             return cases;
@@ -117,8 +117,8 @@ namespace Licenta_Project.Services
             var meanImageMean = inputs.Average(p => p.ImageMean);
             var stdDevImageMean = inputs.Select(p => p.ImageMean).StdDev();
 
-            var meanImageMedian = inputs.Average(p => p.ImageMedian);
-            var stdDevImageMedian = inputs.Select(p => p.ImageMedian).StdDev();
+            var meanMaxBlobArea = inputs.Average(p => p.MaxBlobArea);
+            var stdDevMaxBlobArea = inputs.Select(p => p.MaxBlobArea).StdDev();
 
             var meanImageStdDev = inputs.Average(p => p.ImageStdDev);
             var stdDevImageStdDev = inputs.Select(p => p.ImageStdDev).StdDev();
@@ -136,8 +136,8 @@ namespace Licenta_Project.Services
 
                     (p.PatientAge - meanPacientAge) / stdDevPatientApe,
                     (p.Density - meanDensity) / stdDevDensity,
+                    (p.MaxBlobArea - meanMaxBlobArea) / stdDevMaxBlobArea,
                     (p.ImageMean - meanImageMean) / stdDevImageMean,
-                    (p.ImageMedian - meanImageMedian) / stdDevImageMedian,
                     (p.ImageStdDev - meanImageStdDev) / stdDevImageStdDev,
                     (p.ImageSkew - meanImageSkew) / stdDevImageSkew,
                     (p.ImageKurt - meanImageKurt) / stdDevImageKurt
@@ -158,11 +158,15 @@ namespace Licenta_Project.Services
         {
             var value = (Patology)patology;
 
-            if (value == Patology.Benign)
-                return new double[] { 0, 0, 1};
+            //if (value == Patology.Benign)
+            //    return new double[] { 0, 0, 1};
+            //if (value == Patology.Malignant)
+            //    return new double[] { 0, 1, 0};
+            //return new double[] { 1, 0, 0 };
+
             if (value == Patology.Malignant)
-                return new double[] { 0, 1, 0};
-            return new double[] { 1, 0, 0 };
+                return new double[] { 1 };
+            return new double[] { 0 };
         }
         #endregion
     }

@@ -20,7 +20,7 @@ namespace Licenta_Project.Services
 
         public AnnService()
         {
-            _network = new ActivationNetwork(new SigmoidFunction(), 7, 10, 10, 3);
+            _network = new ActivationNetwork(new SigmoidFunction(), 7, 10, 4, 1);
         }
 
         public void Train(double[][] input, double[][] output)
@@ -34,12 +34,12 @@ namespace Licenta_Project.Services
             var iterations = 0;
             while (!needToStop && iterations <= 10000)
             {
-                error = learning.RunEpoch(input, output) / 1590;
-                if (error < 0.1)
+                error += learning.RunEpoch(input, output) / input.Length;
+                if (error < 0.13)
                     needToStop = true;
                 iterations++;
             }
-            Console.WriteLine($"Error: {error}, iterations: {iterations}");
+            Console.WriteLine($"Error: {error/ 10000}, iterations: {iterations}");
         }
 
         public Patology Test(double[] input)
@@ -59,14 +59,25 @@ namespace Licenta_Project.Services
             _network = Network.Load(fileName);
         }
 
-        private Patology GetPatology(double[] output)
-        {
-            var max = output.Max();
-            var positionOfMax = output.ToList().IndexOf(max);
+        //private Patology GetPatology(double[] output)
+        //{
+        //    var max = output.Max();
+        //    var positionOfMax = output.ToList().IndexOf(max);
 
-            if (positionOfMax == 0)
-                return Patology.Normal;
-            if (positionOfMax == 1)
+        //    //if (positionOfMax == 0)
+        //    //    return Patology.Normal;
+        //    //if (positionOfMax == 1)
+        //    //    return Patology.Malignant;
+        //    //return Patology.Benign;
+
+        //    if (positionOfMax == 0)
+        //        return Patology.Malignant;
+        //    return Patology.Normal;
+        //}
+
+        public Patology GetPatology(double[] output)
+        {
+            if (output[0] > 0.5)
                 return Patology.Malignant;
             return Patology.Benign;
         }

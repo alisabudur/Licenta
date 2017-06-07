@@ -13,7 +13,7 @@ namespace Licenta_Project.DAL
             Property(p => p.PatientAge).IsRequired();
             Property(p => p.Density).IsRequired();
             Property(p => p.ImageStdDev).IsRequired();
-            Property(p => p.ImageMedian).IsRequired();
+            Property(p => p.MaxBlobArea).IsRequired();
             Property(p => p.ImageMean).IsRequired();
             Property(p => p.ImageSkew).IsRequired();
             Property(p => p.ImageKurt).IsRequired();

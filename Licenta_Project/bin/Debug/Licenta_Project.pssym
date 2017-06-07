@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Symbols LinesOfCode="141" PostSharpLinesOfCode="0" EnhancedTypesCount="2" SchemaVersion="1" PostSharpVersion="4.3.33.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
+<Symbols LinesOfCode="134" PostSharpLinesOfCode="0" EnhancedTypesCount="2" SchemaVersion="1" PostSharpVersion="4.3.33.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Class Class="#1=T:[Licenta_Project.Common]Licenta_Project.Common.LogAspect">
-    <Instance Declaration="#2=T:[Licenta_Project]Licenta_Project.Program" Id="ac9bdd965b73c1fb">
+    <Instance Declaration="#2=T:[Licenta_Project]Licenta_Project.Program" Id="ac9bdd96951af59d">
       <Target Target="#3=M:[Licenta_Project]Licenta_Project.Program::Main(System.String[])">
         <JoinPoint Advising="#1" Description="#4=Wrapped by advice(s) OnEntry" Ordinal="0" LinesAvoided="2" />
         <JoinPoint Advising="#1" Description="#5=Wrapped by advice(s) OnExit" LinesAvoided="2" />
@@ -9,7 +9,7 @@
         <JoinPoint Advising="#1" Description="#7=Wrapped by advice(s) OnException" Ordinal="3" LinesAvoided="2" />
       </Target>
     </Instance>
-    <Instance Declaration="#8=T:[Licenta_Project]Licenta_Project.Services.AnnService" Id="ac9bdd96c4f82f30">
+    <Instance Declaration="#8=T:[Licenta_Project]Licenta_Project.Services.AnnService" Id="ac9bdd96a59e437c">
       <Target Target="#9=M:[Licenta_Project]Licenta_Project.Services.AnnService::Train(System.Double[][], System.Double[][])">
         <JoinPoint Advising="#1" Description="#4" Ordinal="4" LinesAvoided="2" />
         <JoinPoint Advising="#1" Description="#5" Ordinal="5" LinesAvoided="2" />
