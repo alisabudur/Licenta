@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Licenta_Project.Common;
 
-namespace Licenta_Project.FileUtility
+namespace Licenta_Project.Utility
 {
     public class CaseBuilder
     {
@@ -73,7 +73,7 @@ namespace Licenta_Project.FileUtility
             {
                 Case.Images[ImageName.RightCC].Overlay = overlay;
             }
-            else if(overlayFile.Contains(Constants.RightMLO))
+            else if (overlayFile.Contains(Constants.RightMLO))
             {
                 Case.Images[ImageName.RightMLO].Overlay = overlay;
             }
@@ -98,10 +98,12 @@ namespace Licenta_Project.FileUtility
             for (var i = 1; i <= totalAbnormalities; i++)
             {
                 var abnormality = $"{Constants.ABNORMALITY} {i}";
+                var nextAbnormality = (i + 1 <= totalAbnormalities) ? $"{Constants.ABNORMALITY} {i + 1}" : null;
+
                 var abnormalityInformation = File.ReadLines(overlayFileName)
                     .SkipWhile(line => line != abnormality)
                     .Skip(1)
-                    .Take(4)
+                    .TakeWhile(line => line != nextAbnormality)
                     .ToArray();
                 result.Add(abnormality, abnormalityInformation);
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Licenta_Project.FileUtility;
+using Licenta_Project.Utility;
 
 namespace Licenta_Project.Utilities
 {
@@ -11,8 +11,7 @@ namespace Licenta_Project.Utilities
     {
         static void Main(string[] args)
         {
-            var ddsmUtility = new DdsmFileUtility();
-            ddsmUtility.LoadCasesFromFiles();
+            var ddsmUtility = new DdsmDbUtility();
             ddsmUtility.PutCasesInDb();
         }
     }

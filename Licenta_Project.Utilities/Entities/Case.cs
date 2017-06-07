@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Licenta_Project.FileUtility
+namespace Licenta_Project.Utility
 {
     public class Case
     {
         public IDictionary<ImageName, CaseImage> Images { get; set; }
         public int PatientAge { get; set; }
-
         public int Density { get; set; }
     }
 }

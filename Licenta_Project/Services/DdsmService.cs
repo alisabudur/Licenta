@@ -58,8 +58,11 @@ namespace Licenta_Project.Services
             var meanImageMean = cases.Average(p => p.ImageMean);
             var stdDevImageMean = cases.Select(p => p.ImageMean).StdDev();
 
-            var meanMaxBlobArea = cases.Average(p => p.MaxBlobArea);
-            var stdDevMaxBlobArea = cases.Select(p => p.MaxBlobArea).StdDev();
+            var meanImageMax = cases.Average(p => p.ImageMax);
+            var stdDevImageMax = cases.Select(p => p.ImageMax).StdDev();
+
+            var meanImageMin = cases.Average(p => p.ImageMin);
+            var stdDevImageMin = cases.Select(p => p.ImageMin).StdDev();
 
             var meanImageStdDev = cases.Average(p => p.ImageStdDev);
             var stdDevImageStdDev = cases.Select(p => p.ImageStdDev).StdDev();
@@ -77,7 +80,8 @@ namespace Licenta_Project.Services
 
                 (dbCase.PatientAge - meanPacientAge) / stdDevPatientApe,
                 (dbCase.Density - meanDensity) / stdDevDensity,
-                (dbCase.MaxBlobArea - meanMaxBlobArea) / stdDevMaxBlobArea,
+                (dbCase.ImageMax - meanImageMax) / stdDevImageMax,
+                (dbCase.ImageMin - meanImageMin) / stdDevImageMin,
                 (dbCase.ImageMean - meanImageMean) / stdDevImageMean,
                 (dbCase.ImageStdDev - meanImageStdDev) / stdDevImageStdDev,
                 (dbCase.ImageSkew - meanImageSkew) / stdDevImageSkew,
@@ -117,8 +121,11 @@ namespace Licenta_Project.Services
             var meanImageMean = inputs.Average(p => p.ImageMean);
             var stdDevImageMean = inputs.Select(p => p.ImageMean).StdDev();
 
-            var meanMaxBlobArea = inputs.Average(p => p.MaxBlobArea);
-            var stdDevMaxBlobArea = inputs.Select(p => p.MaxBlobArea).StdDev();
+            var meanImageMax = inputs.Average(p => p.ImageMax);
+            var stdDevImageMax = inputs.Select(p => p.ImageMax).StdDev();
+
+            var meanImageMin = inputs.Average(p => p.ImageMin);
+            var stdDevImageMin = inputs.Select(p => p.ImageMin).StdDev();
 
             var meanImageStdDev = inputs.Average(p => p.ImageStdDev);
             var stdDevImageStdDev = inputs.Select(p => p.ImageStdDev).StdDev();
@@ -136,7 +143,8 @@ namespace Licenta_Project.Services
 
                     (p.PatientAge - meanPacientAge) / stdDevPatientApe,
                     (p.Density - meanDensity) / stdDevDensity,
-                    (p.MaxBlobArea - meanMaxBlobArea) / stdDevMaxBlobArea,
+                    (p.ImageMax - meanImageMax) / stdDevImageMax,
+                    (p.ImageMin - meanImageMin) / stdDevImageMin,
                     (p.ImageMean - meanImageMean) / stdDevImageMean,
                     (p.ImageStdDev - meanImageStdDev) / stdDevImageStdDev,
                     (p.ImageSkew - meanImageSkew) / stdDevImageSkew,

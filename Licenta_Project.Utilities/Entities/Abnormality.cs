@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AForge.Math.Geometry;
 
-namespace Licenta_Project.FileUtility
+namespace Licenta_Project.Utility
 {
     public class Abnormality
     {
@@ -16,5 +16,7 @@ namespace Licenta_Project.FileUtility
         public int Subtlety { get; set; }
         public Patology Patology { get; set; }
         public int TotalOutlines { get; set; }
+        public Outline Boundary { get; set; }
+        public IEnumerable<Outline> Cores { get; set; }
     }
 }

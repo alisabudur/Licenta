@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Licenta_Project.Common;
+using Licenta_Project.Utilities;
 
-namespace Licenta_Project.FileUtility
+namespace Licenta_Project.Utility
 {
     public class AbnormalityBuilder
     {
@@ -43,7 +44,7 @@ namespace Licenta_Project.FileUtility
             var margins = line
                 .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 .ToArray()
-                .GetValue(3)
+                .GetValue(5)
                 .ToString();
 
             Abnormality.Margins = margins;
@@ -73,6 +74,38 @@ namespace Licenta_Project.FileUtility
                     Abnormality.Patology = Patology.Undefined;
                     break;
             }
+        }
+
+        public void BuildTotalOutlines(int totalOutlines)
+        {
+            Abnormality.TotalOutlines = totalOutlines;
+        }
+
+        public void BuildBoundary(string boundaryLine)
+        {
+            if(string.IsNullOrEmpty(boundaryLine))
+                return;
+
+            var outlineBuilder = new OutlineBuilder();
+            outlineBuilder.BuildOutline(boundaryLine);
+            var outline = outlineBuilder.Outline;
+
+            Abnormality.Boundary = outline;
+        }
+
+        public void BuildCores(IEnumerable<string> coreLines)
+        {
+            var cores = new List<Outline>();
+
+            foreach (var core in coreLines)
+            {
+                var outlineBuilder = new OutlineBuilder();
+                outlineBuilder.BuildOutline(core);
+                var outline = outlineBuilder.Outline;
+                cores.Add(outline);
+            }
+
+            Abnormality.Cores = cores;
         }
     }
 }

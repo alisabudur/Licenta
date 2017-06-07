@@ -40,7 +40,8 @@ namespace Licenta_Project
             {
                 PatientAge = 66,
                 Density = 3,
-                MaxBlobArea = histogram.Max,
+                ImageMax = histogram.Max,
+                ImageMin =  histogram.Min,
                 ImageMean = histogram.Mean,
                 ImageStdDev = histogram.StdDev,
                 ImageSkew = histogram.Skew(),

@@ -67,8 +67,10 @@
   <ItemGroup>
     <Compile Include="Builders\AbnormalityBuilder.cs" />
     <Compile Include="Builders\CaseBuilder.cs" />
+    <Compile Include="Builders\OutlineBuilder.cs" />
     <Compile Include="Builders\OverlayBuilder.cs" />
     <Compile Include="Extentions\CaseItemExtensions.cs" />
+    <Compile Include="Utility\DdsmDbUtility.cs" />
     <Compile Include="Utility\DdsmFileUtility.cs" />
     <Compile Include="Entities\Abnormality.cs" />
     <Compile Include="Entities\Case.cs" />
@@ -81,7 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

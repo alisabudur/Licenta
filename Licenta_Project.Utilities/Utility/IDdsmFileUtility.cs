@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Licenta_Project.FileUtility
+namespace Licenta_Project.Utility
 {
     public interface IDdsmFileUtility
     {

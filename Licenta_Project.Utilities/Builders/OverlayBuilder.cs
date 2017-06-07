@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Design;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Licenta_Project.Common;
 
-namespace Licenta_Project.FileUtility
+namespace Licenta_Project.Utility
 {
     public class OverlayBuilder
     {
@@ -52,6 +53,15 @@ namespace Licenta_Project.FileUtility
                 var patology = GetPatology(information);
                 abnormalityBuilder.BuildPatology(patology);
 
+                var totalOutlines = GetTotalOutlines(information);
+                abnormalityBuilder.BuildTotalOutlines(totalOutlines);
+
+                var boundary = GetBoundary(information);
+                abnormalityBuilder.BuildBoundary(boundary);
+
+                var cores = GetCores(information, totalOutlines);
+                abnormalityBuilder.BuildCores(cores);
+
                 var overlayAbnormality = abnormalityBuilder.Abnormality;
                 overlayAbnormalities.Add(overlayAbnormality);
             }
@@ -95,12 +105,56 @@ namespace Licenta_Project.FileUtility
             if (firstOrDefault != null)
             {
                 var patology = firstOrDefault
-                    .Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries)
+                    .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                     .GetValue(1)
                     .ToString();
                 return patology;
             }
             return string.Empty;
+        }
+
+        private int GetTotalOutlines(IEnumerable<string> abnormalityInformation)
+        {
+            var firstOrDefault = abnormalityInformation.FirstOrDefault(i => i.Contains("TOTAL_OUTLINES"));
+            if (firstOrDefault != null)
+            {
+                var patology = firstOrDefault
+                    .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                    .GetValue(1)
+                    .ToString()
+                    .ToInt();
+                return patology;
+            }
+            return 0;
+        }
+
+        private string GetBoundary(IEnumerable<string> abnormalityInformation)
+        {
+            var firstOrDefault = abnormalityInformation.SkipWhile(i => i != "BOUNDARY")
+                .Skip(1)
+                .Take(1)
+                .FirstOrDefault();
+
+            return firstOrDefault;
+        }
+
+        private IEnumerable<string> GetCores(IEnumerable<string> abnormalityInformation, int totalOutlines)
+        {
+            if (totalOutlines <= 1)
+                return new List<string>();
+
+            var cores = new List<string>();
+
+            for (var i = 0; i < totalOutlines; i++)
+            {
+                var core = abnormalityInformation.SkipWhile(x => x != "BOUNDARY")
+                .Skip(1 + 2 * i)
+                .Take(1)
+                .FirstOrDefault();
+                cores.Add(core);
+            }
+
+            return cores;
         }
     }
 }

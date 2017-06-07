@@ -20,7 +20,7 @@ namespace Licenta_Project.Services
 
         public AnnService()
         {
-            _network = new ActivationNetwork(new SigmoidFunction(), 7, 10, 4, 1);
+            _network = new ActivationNetwork(new SigmoidFunction(), 8, 10, 4, 1);
         }
 
         public void Train(double[][] input, double[][] output)
