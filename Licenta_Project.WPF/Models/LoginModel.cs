@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Licenta_Project.WPF.Models
+namespace Licenta_Project.WPF
 {
     public class LoginModel : INotifyPropertyChanged, IDataErrorInfo
     {
@@ -49,12 +49,12 @@ namespace Licenta_Project.WPF.Models
                 switch (columnName)
                 {
                     case "UserName":
-                        if (string.IsNullOrEmpty(columnName))
+                        if (string.IsNullOrEmpty(_userName))
                             error = "User name required.";
                         break;
                     case "Password":
                         {
-                            if (string.IsNullOrEmpty(columnName))
+                            if (string.IsNullOrEmpty(_password))
                                 error = "Password required.";
                             if (columnName.Length < 5)
                                 error = "Minimul 5 characters required.";

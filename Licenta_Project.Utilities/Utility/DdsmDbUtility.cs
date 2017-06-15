@@ -40,12 +40,12 @@ namespace Licenta_Project.Utility
                         if (caseItem.Images[imageKey].Overlay != null)
                             foreach (var abnormality in caseItem.Images[imageKey].Overlay.Abnormalities)
                             {
-                                AddDataInDb(caseItem, imageKey, image, abnormality.Boundary);
+                                AddDataInDb(caseItem, imageKey, image, abnormality.Patology, abnormality.Boundary);
 
                                 if(abnormality.Cores != null)
                                     foreach (var core in abnormality.Cores)
                                     {
-                                        AddDataInDb(caseItem, imageKey, image, core);
+                                        AddDataInDb(caseItem, imageKey, image, abnormality.Patology, core);
                                     }
                             }
                     }
@@ -88,7 +88,7 @@ namespace Licenta_Project.Utility
             return cropImage;
         }
 
-        private void AddDataInDb(Case caseItem, ImageName imageKey, Bitmap image, Outline outline)
+        private void AddDataInDb(Case caseItem, ImageName imageKey, Bitmap image, Patology patology, Outline outline)
         {
             if(outline == null)
                 return;
@@ -109,7 +109,7 @@ namespace Licenta_Project.Utility
                     ImageSkew = histogram.Skew(),
                     ImageKurt = histogram.Kurt(),
                     ImagePath = caseItem.Images[imageKey].ImagePath,
-                    Patology = caseItem.GetPatology(imageKey)
+                    Patology = (double)patology
                 };
                 _dbCaseRepository.Add(input);
             }

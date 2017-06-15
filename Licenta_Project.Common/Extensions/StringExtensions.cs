@@ -19,5 +19,16 @@ namespace Licenta_Project.Common
             }
             return x;
         }
+
+        public static bool IsNumber(this string str)
+        {
+            int x = 0;
+
+            if (int.TryParse(str, out x))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

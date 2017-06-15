@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Licenta_Project.WPF.Models;
 
 namespace Licenta_Project.WPF.Views
 {

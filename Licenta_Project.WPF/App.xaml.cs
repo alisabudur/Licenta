@@ -13,6 +13,5 @@ namespace Licenta_Project.WPF
     /// </summary>
     public partial class App : Application
     {
-       
     }
 }

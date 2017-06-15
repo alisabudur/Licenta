@@ -11,7 +11,7 @@ using AForge.Neuro.Learning;
 using Licenta_Project.Common;
 using Licenta_Project.DAL;
 
-namespace Licenta_Project.Services
+namespace Licenta_Project.WPF.Services
 {
     [LogAspect]
     public class AnnService

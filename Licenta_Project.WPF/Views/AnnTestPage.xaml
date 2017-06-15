@@ -4,39 +4,43 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Licenta_Project.WPF.Views"
+      xmlns:viewModels="clr-namespace:Licenta_Project.WPF.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="900" d:DesignWidth="900"
       Title="AnnTestPage" Height="Auto" Width="Auto">
 
-    <Grid>
+    <Page.Resources>
+        <viewModels:AnnTestViewModel x:Key="AnnTestViewModel"/>
+    </Page.Resources>
+
+    <Grid DataContext="{StaticResource AnnTestViewModel}">
         <DockPanel LastChildFill="True">
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_New" />
-                    <MenuItem Header="_Open" />
-                    <MenuItem Header="_Save" />
-                    <Separator />
-                    <MenuItem Header="_Exit" />
-                </MenuItem>
-            </Menu>
+            
             <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0,0,1,0" Width="250">
                 <Grid Margin="1,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="10*"/>
-                        <RowDefinition Height="10*"/>
-                        <RowDefinition Height="76*"/>
+                        <RowDefinition Height="16*"/>
+                        <RowDefinition Height="16*"/>
+                        <RowDefinition Height="16*"/>
+                        <RowDefinition Height="16*"/>
+                        <RowDefinition Height="16*"/>
+                        <RowDefinition Height="20*"/>
                     </Grid.RowDefinitions>
-                    <Button Content="Upload" Height="26"  Width="87" Margin="21,12,21,10" Grid.Row="1" Click="Button_Click"/>
-                    <Button Content="Button2" Height="26"  Width="87" Margin="21,6,21,10" Grid.Row="2"/>
-                    <Label Content="Patient age" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="3" VerticalAlignment="Top"/>
-
+                    <Button Content="Upload" Margin="80,32,80,30" Grid.Row="1" Command="{Binding UploadImageCommand}"/>
+                    <Button Content="Start" Margin="79,31,82,30" Grid.Row="4" Command="{Binding TestAnnCommand}"/>
+                    <Label Content="Patient age" HorizontalAlignment="Left" Margin="10,32,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="69"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="90,35,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding AnnViewModel.PatientAge, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Density" HorizontalAlignment="Left" Margin="17,28,0,0" Grid.Row="3" VerticalAlignment="Top" Height="26" Width="49"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="90,28,0,0" Grid.Row="3" TextWrapping="Wrap" Text="{Binding AnnViewModel.Density, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120"/>
                 </Grid>
             </Border>
             <Border DockPanel.Dock="Bottom" BorderBrush="Black" BorderThickness="0,1,0,0" Height="50">
-                <Label Content="Result:"/>
+                <Grid>
+                    <Label Content="Result:"/>
+                    <Label Content="{Binding AnnViewModel.Result, Mode=TwoWay}" Margin="47,0,-10,0"/>
+                </Grid>
             </Border>
-            <Image Name="Image" Height="Auto" Width="Auto"/>
+            <Image Name="Image" Height="Auto" Width="Auto" Source="{Binding AnnViewModel.ImagePath, Mode=TwoWay}"/>
         </DockPanel>
 
     </Grid>
