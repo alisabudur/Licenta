@@ -20,6 +20,8 @@ namespace Licenta_Project.WPF.Models
         public int Density { get { return _density; } set { _density = value; OnPropertyChanged("Density"); } }
 
 
+        #region Property changed
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyname)
@@ -28,6 +30,8 @@ namespace Licenta_Project.WPF.Models
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyname));
         }
+
+        #endregion
 
         #region IDataErrorInfo
 

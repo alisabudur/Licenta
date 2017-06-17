@@ -1,5 +1,4 @@
-﻿using Licenta_Project.WPF.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,20 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.Charts.NewLine;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
 
-namespace Licenta_Project.WPF
+namespace Licenta_Project.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AnnTrainingPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AnnTrainingPage : Page
     {
-        public MainWindow()
+        public AnnTrainingPage()
         {
             InitializeComponent();
-            var firstPage = new AnnTestPage();
-            var p = new AnnTrainingPage();
-            MainFrame.Navigate(p);
         }
     }
 }

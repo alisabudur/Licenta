@@ -12,7 +12,10 @@ namespace Licenta_Project.Utilities
         static void Main(string[] args)
         {
             var ddsmUtility = new DdsmDbUtility();
-            ddsmUtility.PutCasesInDb();
+            var fileUtility = new DdsmFileUtility();
+            fileUtility.LoadCasesFromFiles();
+            var cases = fileUtility.Cases;
+            //ddsmUtility.PutCasesInDb();
         }
     }
 }
