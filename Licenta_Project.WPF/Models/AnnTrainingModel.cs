@@ -14,16 +14,16 @@ namespace Licenta_Project.WPF.Models
         private double _learningRate;
         private int _noOfiterations;
         private double _error;
-        private IPointDataSource _d3DataSource;
+        private ObservableDataSource<Point> _d3DataSource;
 
         public double LearningRate { get { return _learningRate; } set { _learningRate = value; OnPropertyChanged("LearningRate"); } }
         public int Iterations { get { return _noOfiterations; } set { _noOfiterations = value; OnPropertyChanged("Iterations"); } }
         public double AnnError { get { return _error; } set { _error = value; OnPropertyChanged("AnnError"); } }
-        public IPointDataSource D3DataSource { get { return _d3DataSource; } set { _d3DataSource = value; OnPropertyChanged("D3DataSource"); } }
+        public ObservableDataSource<Point> D3DataSource { get { return _d3DataSource; } set { _d3DataSource = value; OnPropertyChanged("D3DataSource"); } }
 
         public AnnTrainingModel()
         {
-            _d3DataSource = new EnumerableDataSource<Point>(new List<Point>());
+            _d3DataSource = new ObservableDataSource<Point>();
         }
 
         #region Property changed

@@ -25,5 +25,8 @@ namespace Licenta_Project.Common
         public const string BENIGN = "BENIGN";
 
         public const string NetworkFilePath = @"D:\Facultate\Licenta\Licenta\Licenta_Project\Resources\Network.txt";
+
+        public const string TrainingPage = "Training page";
+        public const string TestingPage = "Testing page";
     }
 }

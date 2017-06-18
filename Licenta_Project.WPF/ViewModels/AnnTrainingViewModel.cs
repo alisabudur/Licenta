@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,12 +26,7 @@ namespace Licenta_Project.WPF.ViewModels
         private BackgroundWorker _worker;
 
         private ICommand _startTraining;
-
-        public AnnTrainingModel AnnViewModel
-        {
-            get { return _annTrainingModel; }
-            set { _annTrainingModel = value; OnPropertyChanged("AnnViewModel"); }
-        }
+        private ICommand _refreshGraph;
 
         public AnnTrainingViewModel()
         {
@@ -45,11 +41,17 @@ namespace Licenta_Project.WPF.ViewModels
             );
         }
 
+        public AnnTrainingModel AnnViewModel
+        {
+            get { return _annTrainingModel; }
+            set { _annTrainingModel = value; OnPropertyChanged("AnnViewModel"); }
+        }
+
         public ICommand StartTrainingCommand => _startTraining ?? (_startTraining = new CommandHandler(StartTraining, _canExecute));
+        public ICommand RefreshGraphCommand => _refreshGraph ?? (_refreshGraph = new CommandHandler(RefreshGraph, _canExecute));
 
         private void StartTraining()
         {
-
             _worker.DoWork += worker_DoWork;
             _worker.ProgressChanged += worker_ProgressChanged;
             _worker.WorkerReportsProgress = true;
@@ -63,9 +65,17 @@ namespace Licenta_Project.WPF.ViewModels
             _worker.RunWorkerAsync(annInfo);
         }
 
+        private void RefreshGraph()
+        {
+            _annTrainingModel.D3DataSource = new ObservableDataSource<Point>();
+            OnPropertyChanged("AnnViewModel");
+        }
+
+        #region Background worker
+
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var worker = (BackgroundWorker) sender;
+            var worker = (BackgroundWorker)sender;
             var parameter = (AnnInfo)e.Argument;
             var annLearningRate = parameter.LearningRate;
             var annIterations = parameter.Iterations;
@@ -90,7 +100,7 @@ namespace Licenta_Project.WPF.ViewModels
 
                 iterationsArray[iterations] = iterations;
                 errorArray[iterations] = error;
-                var errorInfo = new ErrorInfo { Iteration = iterationsArray, Error = errorArray };
+                var errorInfo = new ErrorInfo { Iteration = iterations, Error = error };
                 worker.ReportProgress((iterations * 100) / annIterations, errorInfo);
                 if (error < annError)
                     needToStop = true;
@@ -102,20 +112,14 @@ namespace Licenta_Project.WPF.ViewModels
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //var errorInfo = (ErrorInfo)e.UserState;
-            //var xDataSource = new EnumerableDataSource<double>(errorInfo.Error);
-            //var yDataSource = new EnumerableDataSource<double>(errorInfo.Iteration);
-            //_annTrainingModel.D3DataSource = new CompositeDataSource(xDataSource, yDataSource);
-            //_annTrainingModel.AnnError = e.ProgressPercentage;
-            Application.Current.Dispatcher.Invoke(() => { _annTrainingModel.AnnError = e.ProgressPercentage; });
-            //_annTrainingModel.AnnError = e.ProgressPercentage;
+            var errorInfo = (ErrorInfo)e.UserState;
+            _annTrainingModel.D3DataSource.Collection.Add(new Point(errorInfo.Iteration, errorInfo.Error));
             OnPropertyChanged("AnnViewModel");
-
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var worker = (BackgroundWorker) sender;
+            var worker = (BackgroundWorker)sender;
             worker.DoWork -= worker_DoWork;
             worker.ProgressChanged -= worker_ProgressChanged;
             worker.RunWorkerCompleted -= worker_RunWorkerCompleted;
@@ -124,6 +128,7 @@ namespace Licenta_Project.WPF.ViewModels
 
             MessageBox.Show("Artificial neural network finished training!");
         }
+        #endregion
 
         #region Property changed
 
@@ -138,6 +143,8 @@ namespace Licenta_Project.WPF.ViewModels
 
         #endregion
 
+        #region Private classes
+
         private class AnnInfo
         {
             public double LearningRate { get; set; }
@@ -147,8 +154,10 @@ namespace Licenta_Project.WPF.ViewModels
 
         private class ErrorInfo
         {
-            public double[] Iteration { get; set; }
-            public double[] Error { get; set; }
+            public double Iteration { get; set; }
+            public double Error { get; set; }
         }
+
+        #endregion
     }
 }

@@ -120,6 +120,7 @@
     <Compile Include="Models\AnnTestModel.cs" />
     <Compile Include="Models\AnnTrainingModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Services\AnnService.cs" />
     <Compile Include="Services\AnnTrainingData.cs" />
     <Compile Include="Services\DdsmService.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="ViewModels\AnnTrainingViewModel.cs" />
     <Compile Include="ViewModels\CommandHandler.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\AnnTestPage.xaml.cs">
       <DependentUpon>AnnTestPage.xaml</DependentUpon>
     </Compile>

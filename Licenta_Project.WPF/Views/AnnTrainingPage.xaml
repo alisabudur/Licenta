@@ -8,7 +8,7 @@
       xmlns:viewModels="clr-namespace:Licenta_Project.WPF.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="600"
-      Title="AnnTrainingPage">
+      Title="Ann training page">
 
     <Page.Resources>
         <viewModels:AnnTrainingViewModel x:Key="AnnTrainingViewModel"/>
@@ -19,13 +19,13 @@
             <RowDefinition Height="13*"/>
             <RowDefinition Height="47*"/>
         </Grid.RowDefinitions>
-        <d3:ChartPlotter x:Name="display" Height="Auto" Width="Auto" Margin="10,10,10,10" Grid.Row="1">
+        <d3:ChartPlotter x:Name="Display" Height="Auto" Width="Auto" Margin="10,10,10,10" Grid.Row="1">
             <d3:Header>
                 <TextBlock HorizontalAlignment="Center" FontSize="20">Error regression</TextBlock>
             </d3:Header>
             <d3:VerticalAxisTitle>Error</d3:VerticalAxisTitle>
             <d3:HorizontalAxisTitle>Iterations</d3:HorizontalAxisTitle>
-            <d3:LineGraph x:Name="lineGraph" DataSource="{Binding AnnViewModel.D3DataSource}" Stroke="Red"/>
+            <d3:LineGraph x:Name="lineGraph" DataSource="{Binding AnnViewModel.D3DataSource }" Stroke="Red"/>
 
         </d3:ChartPlotter>
         <Button Content="Start" HorizontalAlignment="Left" Margin="295,17,0,0" VerticalAlignment="Top" Width="75" Height="20" Command="{Binding StartTrainingCommand}"/>
@@ -35,6 +35,7 @@
         <TextBox HorizontalAlignment="Left" Height="23" Margin="135,54,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.Iterations, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120"/>
         <Label Content="Error" HorizontalAlignment="Left" Margin="45,91,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="135,91,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.AnnError, Mode=TwoWay, ValidatesOnDataErrors=True }" VerticalAlignment="Top" Width="120"/>
-        
+        <Button Content="Refresh graph" HorizontalAlignment="Left" Margin="405,17,0,0" VerticalAlignment="Top" Width="100" Command="{Binding RefreshGraphCommand}"/>
+
     </Grid>
 </Page>

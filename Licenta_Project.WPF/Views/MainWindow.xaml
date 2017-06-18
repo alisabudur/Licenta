@@ -4,20 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Licenta_Project.WPF"
+        xmlns:viewModels="clr-namespace:Licenta_Project.WPF.ViewModels"
         mc:Ignorable="d"
         Title="Intelligent system for breast cancer diagnosis" Height="600" Width="600">
-    <Grid>
+
+    <Window.Resources>
+        <viewModels:MainWindowViewModel x:Key="MainWindowModel"/>
+    </Window.Resources>
+    
+    <Grid DataContext="{StaticResource MainWindowModel}">
         <DockPanel Margin="0,0">
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_New" />
-                    <MenuItem Header="_Open" />
-                    <MenuItem Header="_Save" />
+                <MenuItem Header="Neural network">
+                    <MenuItem Header="Training" Command="{Binding NavigateToAnnTrainingPage}"/>
+                    <MenuItem Header="Testing" Command="{Binding NavigateToAnnTestingPage}"/>
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="Exit" />
                 </MenuItem>
             </Menu>
-            <Frame x:Name="MainFrame" />
+            <Frame x:Name="MainFrame" Content="{Binding Page}"/>
         </DockPanel>
     </Grid>
 </Window>

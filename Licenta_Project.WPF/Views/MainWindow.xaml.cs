@@ -25,9 +25,9 @@ namespace Licenta_Project.WPF
         public MainWindow()
         {
             InitializeComponent();
-            var firstPage = new AnnTestPage();
-            var p = new AnnTrainingPage();
-            MainFrame.Navigate(p);
+            //var firstPage = new AnnTestPage();
+            //var p = new AnnTrainingPage();
+            //MainFrame.Navigate(p);
         }
     }
 }
