@@ -16,64 +16,91 @@ namespace Licenta_Project.WPF.Services
     [LogAspect]
     public class AnnService
     {
-        private Network _network;
+        public Network Network { get; set; }
 
         public AnnService()
         {
-            _network = new ActivationNetwork(new SigmoidFunction(), 8, 10, 10, 10, 1);
         }
 
-        public void Train(double[][] input, double[][] output)
+        public double GetEpochAccuracy(double[][] input, double[][] output)
         {
-            var learning = new BackPropagationLearning((ActivationNetwork)_network)
+            var goodNetOutputCounts = 0;
+            for (var i = 0; i < input.Length; i++)
             {
-                LearningRate = 0.01
-            };
-            var needToStop = false;
-            double error = 0;
-            var iterations = 0;
-            while (!needToStop && iterations <= 10000)
-            {
-                error = learning.RunEpoch(input, output) / input.Length;
-                if (error < 0.065)
-                    needToStop = true;
-                iterations++;
+                var netOutput = Network.Compute(input[i]);
+                var netPathology = GetPatology(netOutput);
+                var actualPathology = GetPatology(output[i]);
+                if (netPathology == actualPathology)
+                    goodNetOutputCounts++;
             }
-            Console.WriteLine($"Error: {error}, iterations: {iterations}");
+            var result = goodNetOutputCounts * 100 / input.Length;
+            return result;
+        }
+
+        public double GetEpochPrecision(double[][] input, double[][] output)
+        {
+            var trueBenigns = 0;
+            var falseBenigns = 0;
+            for (var i = 0; i < input.Length; i++)
+            {
+                var netOutput = Network.Compute(input[i]);
+                var netPathology = GetPatology(netOutput);
+                var actualPathology = GetPatology(output[i]);
+
+                if (netPathology == Patology.Benign && actualPathology == Patology.Benign)
+                    trueBenigns++;
+
+                if (netPathology == Patology.Benign && actualPathology != Patology.Benign)
+                    falseBenigns++;
+            }
+            if (trueBenigns + falseBenigns == 0)
+                return 0;
+
+            var result = (double)trueBenigns / (double)(trueBenigns + (double)falseBenigns);
+            return result;
+        }
+
+        public double GetEpochRecall(double[][] input, double[][] output)
+        {
+            var trueBenigns = 0;
+            var falseMaligns = 0;
+
+            for (var i = 0; i < input.Length; i++)
+            {
+                var netOutput = Network.Compute(input[i]);
+                var netPathology = GetPatology(netOutput);
+                var actualPathology = GetPatology(output[i]);
+
+                if (netPathology == Patology.Benign && actualPathology == Patology.Benign)
+                    trueBenigns++;
+
+                if (netPathology == Patology.Malignant && actualPathology != Patology.Malignant)
+                    falseMaligns++;
+            }
+
+            if (trueBenigns + falseMaligns == 0)
+                return 0;
+
+            var result = (double)trueBenigns / (double)(trueBenigns + (double)falseMaligns);
+            return result;
         }
 
         public Patology Test(double[] input)
         {
-            var outputNetwork = _network.Compute(input);
+            var outputNetwork = Network.Compute(input);
             var patology = GetPatology(outputNetwork);
             return patology;
         }
 
         public void SaveAnnToFile(string fileName)
         {
-            _network.Save(fileName);
+            Network.Save(fileName);
         }
 
         public void LoadAnnFromFile(string fileName)
         {
-            _network = Network.Load(fileName);
+            Network = Network.Load(fileName);
         }
-
-        //private Patology GetPatology(double[] output)
-        //{
-        //    var max = output.Max();
-        //    var positionOfMax = output.ToList().IndexOf(max);
-
-        //    //if (positionOfMax == 0)
-        //    //    return Patology.Normal;
-        //    //if (positionOfMax == 1)
-        //    //    return Patology.Malignant;
-        //    //return Patology.Benign;
-
-        //    if (positionOfMax == 0)
-        //        return Patology.Malignant;
-        //    return Patology.Benign;
-        //}
 
         public Patology GetPatology(double[] output)
         {

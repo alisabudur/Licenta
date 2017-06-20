@@ -27,6 +27,7 @@ namespace Licenta_Project.WPF.ViewModels
 
         private ICommand _startTraining;
         private ICommand _refreshGraph;
+        private ICommand _cancelCommand;
 
         public AnnTrainingViewModel()
         {
@@ -49,17 +50,19 @@ namespace Licenta_Project.WPF.ViewModels
 
         public ICommand StartTrainingCommand => _startTraining ?? (_startTraining = new CommandHandler(StartTraining, _canExecute));
         public ICommand RefreshGraphCommand => _refreshGraph ?? (_refreshGraph = new CommandHandler(RefreshGraph, _canExecute));
+        public ICommand CancelCommad => _cancelCommand ?? (_cancelCommand = new CommandHandler(Cancel, _canExecute));
 
         private void StartTraining()
         {
             _worker.DoWork += worker_DoWork;
             _worker.ProgressChanged += worker_ProgressChanged;
             _worker.WorkerReportsProgress = true;
+            _worker.WorkerSupportsCancellation = true;
             _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             var annInfo = new AnnInfo
             {
                 LearningRate = _annTrainingModel.LearningRate,
-                Iterations = _annTrainingModel.Iterations,
+                Epochs = _annTrainingModel.Epochs,
                 Error = _annTrainingModel.AnnError
             };
             _worker.RunWorkerAsync(annInfo);
@@ -67,8 +70,25 @@ namespace Licenta_Project.WPF.ViewModels
 
         private void RefreshGraph()
         {
-            _annTrainingModel.D3DataSource = new ObservableDataSource<Point>();
+            _annTrainingModel.D3DataSourceError = new ObservableDataSource<Point>();
+            _annTrainingModel.D3DataSourceAccuracy = new ObservableDataSource<Point>();
+            _annTrainingModel.D3DataSourcePrecision = new ObservableDataSource<Point>();
+            _annTrainingModel.D3DataSourceRecall = new ObservableDataSource<Point>();
             OnPropertyChanged("AnnViewModel");
+        }
+
+        private void Cancel()
+        {
+            if (_worker.IsBusy)
+            {
+                _worker.CancelAsync();
+                _annTrainingModel.D3DataSourceError = new ObservableDataSource<Point>();
+                _annTrainingModel.D3DataSourceAccuracy = new ObservableDataSource<Point>();
+                _annTrainingModel.D3DataSourcePrecision = new ObservableDataSource<Point>();
+                _annTrainingModel.D3DataSourceRecall = new ObservableDataSource<Point>();
+                OnPropertyChanged("AnnViewModel");
+            }
+
         }
 
         #region Background worker
@@ -78,33 +98,43 @@ namespace Licenta_Project.WPF.ViewModels
             var worker = (BackgroundWorker)sender;
             var parameter = (AnnInfo)e.Argument;
             var annLearningRate = parameter.LearningRate;
-            var annIterations = parameter.Iterations;
+            var annEpochs = parameter.Epochs;
             var annError = parameter.Error;
+
+            var annService = new AnnService();
 
             var data = _ddsmService.GetTrainingData();
             var network = new ActivationNetwork(new SigmoidFunction(), 8, 10, 10, 10, 1);
 
-            var learning = new BackPropagationLearning((ActivationNetwork)network)
+            var learning = new BackPropagationLearning(network)
             {
-                LearningRate = annLearningRate
+                LearningRate = annLearningRate,
             };
 
             var needToStop = false;
-            var iterations = 0;
-            var iterationsArray = new double[annIterations];
-            var errorArray = new double[annIterations];
+            var epoch = 0;
 
-            while (!needToStop && iterations < annIterations)
+            while (!needToStop && epoch < annEpochs)
             {
                 var error = learning.RunEpoch(data.Input, data.Output) / data.Input.Length;
+                annService.Network = network;
+                var accuracy = annService.GetEpochAccuracy(data.Input, data.Output);
+                var precision = annService.GetEpochPrecision(data.Input, data.Output);
+                var recall = annService.GetEpochRecall(data.Input, data.Output);
 
-                iterationsArray[iterations] = iterations;
-                errorArray[iterations] = error;
-                var errorInfo = new ErrorInfo { Iteration = iterations, Error = error };
-                worker.ReportProgress((iterations * 100) / annIterations, errorInfo);
+                var errorInfo = new PerformanceInfo
+                {
+                    Epoch = epoch,
+                    Error = error,
+                    Accuracy = accuracy,
+                    Precision = precision,
+                    Recall = recall
+                };
+
+                worker.ReportProgress((epoch * 100) / annEpochs, errorInfo);
                 if (error < annError)
                     needToStop = true;
-                iterations++;
+                epoch++;
             }
 
             e.Result = network;
@@ -112,8 +142,11 @@ namespace Licenta_Project.WPF.ViewModels
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var errorInfo = (ErrorInfo)e.UserState;
-            _annTrainingModel.D3DataSource.Collection.Add(new Point(errorInfo.Iteration, errorInfo.Error));
+            var performanceInfo = (PerformanceInfo)e.UserState;
+            _annTrainingModel.D3DataSourceError.Collection.Add(new Point(performanceInfo.Epoch, performanceInfo.Error));
+            _annTrainingModel.D3DataSourceAccuracy.Collection.Add(new Point(performanceInfo.Epoch, performanceInfo.Accuracy));
+            _annTrainingModel.D3DataSourcePrecision.Collection.Add(new Point(performanceInfo.Epoch, performanceInfo.Precision));
+            _annTrainingModel.D3DataSourceRecall.Collection.Add(new Point(performanceInfo.Epoch, performanceInfo.Recall));
             OnPropertyChanged("AnnViewModel");
         }
 
@@ -148,14 +181,17 @@ namespace Licenta_Project.WPF.ViewModels
         private class AnnInfo
         {
             public double LearningRate { get; set; }
-            public int Iterations { get; set; }
+            public int Epochs { get; set; }
             public double Error { get; set; }
         }
 
-        private class ErrorInfo
+        private class PerformanceInfo
         {
-            public double Iteration { get; set; }
+            public double Epoch { get; set; }
             public double Error { get; set; }
+            public double Accuracy { get; set; }
+            public double Precision { get; set; }
+            public double Recall { get; set; }
         }
 
         #endregion

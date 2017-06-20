@@ -7,7 +7,7 @@
       xmlns:d3="clr-namespace:Microsoft.Research.DynamicDataDisplay;assembly=DynamicDataDisplay"
       xmlns:viewModels="clr-namespace:Licenta_Project.WPF.ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="600"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="Ann training page">
 
     <Page.Resources>
@@ -15,27 +15,61 @@
     </Page.Resources>
 
     <Grid DataContext="{StaticResource AnnTrainingViewModel}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="41*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="13*"/>
-            <RowDefinition Height="47*"/>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="24*"/>
         </Grid.RowDefinitions>
+
+        <Label Content="Learning rate" HorizontalAlignment="Left" Margin="45,17,0,0" VerticalAlignment="Top" Height="26" Width="80"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,17,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.LearningRate, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Epochs" HorizontalAlignment="Left" Margin="45,54,0,0" VerticalAlignment="Top" Height="26" Width="60"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,54,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.Epochs, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Error" HorizontalAlignment="Left" Margin="45,91,0,0" VerticalAlignment="Top" Height="26" Width="36"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,91,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.AnnError, Mode=TwoWay, ValidatesOnDataErrors=True }" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="14,17,0,0" VerticalAlignment="Top" Width="75" Height="20" Command="{Binding StartTrainingCommand}" Grid.Column="1"/>
+        <Button Content="Refresh graph" HorizontalAlignment="Left" Margin="13,48,0,0" VerticalAlignment="Top" Width="100" Command="{Binding RefreshGraphCommand}" Height="20" Grid.Column="1"/>
+        <Button Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="14,80,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CancelCommad}" Height="20"/>
+
         <d3:ChartPlotter x:Name="Display" Height="Auto" Width="Auto" Margin="10,10,10,10" Grid.Row="1">
             <d3:Header>
                 <TextBlock HorizontalAlignment="Center" FontSize="20">Error regression</TextBlock>
             </d3:Header>
             <d3:VerticalAxisTitle>Error</d3:VerticalAxisTitle>
-            <d3:HorizontalAxisTitle>Iterations</d3:HorizontalAxisTitle>
-            <d3:LineGraph x:Name="lineGraph" DataSource="{Binding AnnViewModel.D3DataSource }" Stroke="Red"/>
-
+            <d3:HorizontalAxisTitle>Epoch</d3:HorizontalAxisTitle>
+            <d3:LineGraph x:Name="lineGraph" DataSource="{Binding AnnViewModel.D3DataSourceError }" Stroke="Red"/>
         </d3:ChartPlotter>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="295,17,0,0" VerticalAlignment="Top" Width="75" Height="20" Command="{Binding StartTrainingCommand}"/>
-        <Label Content="Learning rate" HorizontalAlignment="Left" Margin="45,17,0,0" VerticalAlignment="Top" Height="26" Width="80"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,17,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.LearningRate, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Iterations" HorizontalAlignment="Left" Margin="45,54,0,0" VerticalAlignment="Top" Height="26" Width="60"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,54,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.Iterations, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Error" HorizontalAlignment="Left" Margin="45,91,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="135,91,0,0" TextWrapping="Wrap" Text="{Binding AnnViewModel.AnnError, Mode=TwoWay, ValidatesOnDataErrors=True }" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Refresh graph" HorizontalAlignment="Left" Margin="405,17,0,0" VerticalAlignment="Top" Width="100" Command="{Binding RefreshGraphCommand}"/>
+
+        <d3:ChartPlotter x:Name="Display_Copy" Height="Auto" Width="Auto" Margin="10" Grid.Row="1" Grid.Column="1">
+            <d3:Header>
+                <TextBlock HorizontalAlignment="Center" FontSize="20"><Run Text="Accuracy %"/></TextBlock>
+            </d3:Header>
+            <d3:VerticalAxisTitle Content="Accuracy %"/>
+            <d3:HorizontalAxisTitle Content="Epoch"/>
+            <d3:LineGraph x:Name="lineGraph1" DataSource="{Binding AnnViewModel.D3DataSourceAccuracy}" Stroke="Blue"/>
+        </d3:ChartPlotter>
+
+        <d3:ChartPlotter x:Name="Display_Copy1" Height="Auto" Width="Auto" Margin="10,29,10,11" Grid.Row="2">
+            <d3:Header>
+                <TextBlock HorizontalAlignment="Center" FontSize="20"><Run Text="Precision"/></TextBlock>
+            </d3:Header>
+            <d3:VerticalAxisTitle Content="Precision"/>
+            <d3:HorizontalAxisTitle Content="Epoch"/>
+            <d3:LineGraph x:Name="lineGraph2" DataSource="{Binding AnnViewModel.D3DataSourcePrecision}" Stroke="Black"/>
+        </d3:ChartPlotter>
+        <d3:ChartPlotter x:Name="Display_Copy2" Height="Auto" Width="Auto" Margin="10,29,10,11" Grid.Row="2" Grid.Column="1">
+            <d3:Header>
+                <TextBlock HorizontalAlignment="Center" FontSize="20"><Run Text="Recall"/></TextBlock>
+            </d3:Header>
+            <d3:VerticalAxisTitle Content="Recall"/>
+            <d3:HorizontalAxisTitle Content="Epoch"/>
+            <d3:LineGraph x:Name="lineGraph3" DataSource="{Binding AnnViewModel.D3DataSourceRecall}" Stroke="Green"/>
+        </d3:ChartPlotter>
+
 
     </Grid>
 </Page>
